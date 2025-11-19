@@ -163,3 +163,21 @@ void deleteItem()
 
     printf("Item Deleted! \n");
 }
+
+void lowStock()
+{
+    int flag =0;
+    for(int i=0; i<itemCount; i++)
+    {
+        if(inventory[i].quantity < 5)
+        {
+            flag =1;
+            printf("WARNING: Low Stock! %s have %d quantity.\n",inventory[i].name,inventory[i].quantity);
+        }
+    }
+
+    if(!flag)
+    {
+        printf("All Items Are Fully Stocked! \n");
+    }
+}
