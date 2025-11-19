@@ -12,7 +12,7 @@ This phase-wise breakdown ensured the project followed proper software engineeri
 - Created the main project folder  
 - Set up the directory structure (`src/`, `include/`, `data/`, `docs/`)  
 - Added empty data files (`products.txt`, `customers.txt`, `bills.txt`, `login.txt`)  
-- Initialized GitHub repository  
+- Initialised GitHub repository  
 - Connected repo to VS Code  
 - Created main branches:  
   - `main` (stable build)  
@@ -126,3 +126,4 @@ Implemented full product functionality:
 - Helped maintain consistent coding style  
 
 ---
+
