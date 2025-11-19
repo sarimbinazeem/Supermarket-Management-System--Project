@@ -210,3 +210,21 @@ void searchItems()
     }
 
 }
+
+void sortByName()
+{
+    for(int i=0; i<itemCount; i++)
+    {
+        for(int j=1; j<itemCount; j++)
+        {
+            if(strcmp(inventory[i].name,inventory[j].name) > 0)
+            {
+                Product temp = inventory[i];
+                inventory[i] = inventory[j];
+                inventory[j] = inventory[i];
+            }
+        }
+    }
+
+    printf("Stock Sorted By Name. \n");
+}
