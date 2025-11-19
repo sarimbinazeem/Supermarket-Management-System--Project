@@ -221,7 +221,7 @@ void sortByName()
             {
                 Product temp = inventory[i];
                 inventory[i] = inventory[j];
-                inventory[j] = inventory[i];
+                inventory[j] = temp;
             }
         }
     }
