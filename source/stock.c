@@ -94,3 +94,39 @@ void displayStock()
 
     printf("\n Items Displayed Successfully.\n");
 }
+
+void updateItem()
+{
+    int id;
+    printf("Enter Product ID: ");
+    scanf("%d",&id);
+
+    int found = -1
+    for(int i=0; i<itemCount; i++)
+    {
+        if(inventory[i].id == id)
+        {
+            found = i;
+            break;
+        }
+    }
+
+    
+    if(found == -1)
+    {
+        printf("Item Not Found! \n");
+        return;
+    }
+
+    printf("Updating %s\n",inventory[found].name);
+
+    printf("Enter New Price: ");
+    scanf("%f",&inventory[found].price);
+
+    printf("Enter New Quantity: ");
+    scanf("%d",&inventory[found].quantity);
+
+    saveStock();
+    printf("Item Updated! \n");
+    
+}
