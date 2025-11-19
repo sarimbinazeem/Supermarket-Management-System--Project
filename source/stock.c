@@ -130,3 +130,36 @@ void updateItem()
     printf("Item Updated! \n");
     
 }
+
+void deleteItem()
+{
+    int id;
+    printf("Enter Product ID: ");
+    scanf("%d",&id);
+
+    int found = -1
+    for(int i=0; i<itemCount; i++)
+    {
+        if(inventory[i].id == id)
+        {
+            found = i;
+            break;
+        }
+    }
+
+    if(found == -1)
+    {
+        printf("Item Not Found! \n");
+        return;
+    }
+
+    for(int i= found ; i<itemCount-1; i++)
+    {
+        inventory[i] = inventory[i+1]; 
+    }
+
+    itemCount--;
+    saveStock();
+
+    printf("Item Deleted! \n");
+}
