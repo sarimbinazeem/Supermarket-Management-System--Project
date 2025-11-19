@@ -213,7 +213,7 @@ void searchItems()
 
 void sortByName()
 {
-    for(int i=0; i<itemCount; i++)
+    for(int i=0; i<itemCount-1; i++)
     {
         for(int j=1; j<itemCount; j++)
         {
@@ -227,4 +227,23 @@ void sortByName()
     }
 
     printf("Stock Sorted By Name. \n");
+}
+
+void sortByPrice()
+{
+    for(int i=0; i<itemCount-1; i++)
+    {
+        for(int j=1; j<itemCount; j++)
+        {
+            if(inventory[i].price>inventory[j].price)
+            {
+                Product temp = inventory[i];
+                inventory[i] = inventory[j];
+                inventory[j] = temp;
+            }
+        }
+    }
+
+    printf("Stock Sorted By Price. \n");
+
 }
