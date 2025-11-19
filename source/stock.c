@@ -28,6 +28,8 @@ void loadStock()
                  }
 
     fclose(fptr);
+
+    printf("Stock Loaded Successfully! \n");
 }
 
 void saveStock()
@@ -42,9 +44,40 @@ void saveStock()
 
     for(int i=0; i<itemCount; i++)
     {
-        fprintf(fptr,"%d %s %f %d",inventory[i].id,inventory[i].name, 
+        fprintf(fptr,"%d %s %.2ff %d",inventory[i].id,inventory[i].name, 
                 inventory[i].price, inventory[i].quantity);
 
                 fclose(fptr);
     }
+
+    printf("Stock Saved Successfully! \n");
+}
+
+void addItem()
+{
+    if(itemCount>=ITEMS)
+    {
+        printf("Inventory Full \n");
+        return;
+    }
+
+    Product new;
+    printf("Enter Product ID: ");
+    scanf("%d",new.id);
+
+    printf("Enter Product Name: ");
+    scanf("%[^\n]",new.name);
+    getchar();
+
+    printf("Enter Product Price: ");
+    scanf("%f",new.price);
+
+    printf("Enter Product Quantity: ");
+    scanf("%d",new.quantity);
+    
+    inventory[itemCount] = new;
+    itemCount++;
+
+    saveStock();
+    printf("Item Added Successfully! \n");
 }
