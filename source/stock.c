@@ -181,3 +181,32 @@ void lowStock()
         printf("All Items Are Fully Stocked! \n");
     }
 }
+
+void searchItems()
+{
+    int flag =0;
+    char search[50];
+
+    printf("Enter Product Name To Search: ");
+    scanf("%[^\n]",search);
+
+    for(int i=0; i<itemCount ;i++)
+    {
+        if(strcmp(inventory[i].name,search) ==0)
+        {
+            flag =1;
+            printf("Item Found! \n");
+            printf("ID:%d \n",inventory[i].id);
+            printf("Name:%s \n",inventory[i].name);
+            printf("Price:%.2f \n",inventory[i].price);
+            printf("Quantity:%d \n",inventory[i].quantity);
+            break;
+        }
+    }
+
+    if(!flag)
+    {
+        printf("Item Not Found! \n");
+    }
+
+}

@@ -7,7 +7,7 @@
 typedef struct
 {
     int id;
-    char name[50][100];
+    char name[50];
     float price;
     int quantity;
 }Product;
