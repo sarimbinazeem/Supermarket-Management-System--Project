@@ -44,7 +44,7 @@ void saveStock()
 
     for(int i=0; i<itemCount; i++)
     {
-        fprintf(fptr,"%d %s %.2ff %d",inventory[i].id,inventory[i].name, 
+        fprintf(fptr,"%d %s %.2f %d",inventory[i].id,inventory[i].name, 
                 inventory[i].price, inventory[i].quantity);
 
                 fclose(fptr);
@@ -80,4 +80,17 @@ void addItem()
 
     saveStock();
     printf("Item Added Successfully! \n");
+}
+
+void displayStock()
+{
+    printf("\n==========Stock Available==========\n");
+    for(int i=0; i<itemCount; i++)
+    {
+        printf("%d) %s | Price: %.2f | Quantity: %d\n",inventory[i].id, inventory[i].name
+                                                     inventory[i].price,inventory[i].quantity);
+
+    }
+
+    printf("\n Items Displayed Successfully.\n");
 }
