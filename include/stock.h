@@ -20,5 +20,8 @@ void loadStock();
 void updateItem();
 void deleteItem();
 void lowStock();
+void searchItems();
+void sortByName();
+void sortByPrice();
 
 #endif
