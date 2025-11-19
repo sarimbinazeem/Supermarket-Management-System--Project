@@ -13,7 +13,10 @@ void menu()
         printf("3.Update Item\n");
         printf("4.Delete Item\n");
         printf("5.Check For Low Stock\n");
-        printf("6.Exit\n");
+        printf("6.Search For An Item\n");
+        printf("7.Sort Stock By Name\n");
+        printf("8.Sort Stock By Price\n");
+        printf("9.Exit\n");
 
         printf("Ener Your Choice: ");
         scanf("%d",&choice);
@@ -39,8 +42,20 @@ void menu()
             case 5:
                 lowStock();
                 break;
-
+            
             case 6:
+                searchItems();
+                break;
+
+            case 7:
+                sortByName();
+                break;
+
+            case 8:
+                sortByPrice();
+                break;
+            
+            case 9:
                 printf("Exiting The System...\n");
                 break;
 
