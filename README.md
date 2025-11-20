@@ -1,8 +1,8 @@
 # Supermarket Management System
 
 ## 👥 Team Members
-- **Sarim bin Azeem**
-- **Khizar Sheikh**
+- **Sarim bin Azeem** 25k-0574
+- **Khizar Sheikh** 25k- 0641
 
 ---
 
@@ -94,3 +94,4 @@ Both members (Sarim & Khizar) practised:
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/your-username/your-repo-name.git
+
