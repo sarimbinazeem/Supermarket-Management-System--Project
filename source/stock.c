@@ -110,16 +110,23 @@ void addItem()
     printf("Item Added Successfully! \n");
 }
 
+void recursiveDisplay (int index)
+{
+    if(index>=itemCount)
+    {
+        return; //Base Case
+    }
+
+     printf("%d) %s | Price: %.2f | Quantity: %d\n",inventory[index].id, inventory[index].name, inventory[index].price,inventory[index].quantity);
+
+     recursiveDisplay(index +1); //recursive call
+
+
+}
 void displayStock()
 {
     printf("\n==========Stock Available==========\n");
-    for(int i=0; i<itemCount; i++)
-    {
-        printf("%d) %s | Price: %.2f | Quantity: %d\n",inventory[i].id, inventory[i].name
-                                                     inventory[i].price,inventory[i].quantity);
-
-    }
-
+    recursiveDisplay(0);
     printf("\n Items Displayed Successfully.\n");
 }
 
