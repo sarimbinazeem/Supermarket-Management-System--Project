@@ -36,12 +36,25 @@ void loadStock()
         return;
     }
 
+    //Load Runs At The Start Of The Main So We Initialize From 0
+    itemCount = 0;
+    capacity =0;
+
+    int id, quantity;
+    char name[50];
+    float price;
+
     itemCount =0; //Added So That Each Time ItemCount starts from 0 
 
     //Take Stock from Stock File Until it is the End Of File And Store it Inventory Structure
-    while(fscanf(fptr,"%d %s %f %d", &inventory[itemCount].id,inventory[itemCount].name, 
-                 inventory[itemCount].price, inventory[itemCount].quantity)!=EOF)
+    while(fscanf(fptr,"%d %s %f %d", &id,name,  &price, &quantity)!=EOF)
                  {
+                    capacityUpdater();
+
+                    inventory[itemCount].id =id;
+                    strcpy(inventory[itemCount].name,name);
+                    inventory[itemCount].price =price;
+                    inventory[itemCount].quantity = quantity;
                     itemCount++;  
                  }
 
@@ -75,7 +88,7 @@ void addItem()
 {
 
     capacityUpdater();
-    
+
     Product new;
     printf("Enter Product ID: ");
     scanf("%d",new.id);
