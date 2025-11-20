@@ -7,6 +7,24 @@ Product *inventory = NULL; //It starts from pointing to nothing
 int itemCount=0;
 int capacity =0; 
 
+void capacityUpdater()
+{
+    //Initially We Start from 10 capacity and use malloc which asks the computer to get memory for 10 items
+    if (capacity ==0)
+    {
+        capacity = 10;
+        inventory = (Product*)malloc(capacity * sizeof(Product))  //sizeof(Product) initially zero
+    }
+
+    //If Items Added Exceeds Capacity Size We 
+    else if(itemCount >= capacity)
+    {
+        //Double the recent capacity
+        capacity *= 2;
+        inventory = (Product*)realloc(inventory,capacity * sizeof(Product));
+    }
+
+ }
 void loadStock()
 {
     FILE *fptr = fopen("../data/stock.txt","r");
