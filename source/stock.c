@@ -25,6 +25,7 @@ void capacityUpdater()
     }
 
  }
+
 void loadStock()
 {
     FILE *fptr = fopen("../data/stock.txt","r");
@@ -72,12 +73,9 @@ void saveStock()
 
 void addItem()
 {
-    if(itemCount>=ITEMS)
-    {
-        printf("Inventory Full \n");
-        return;
-    }
 
+    capacityUpdater();
+    
     Product new;
     printf("Enter Product ID: ");
     scanf("%d",new.id);
