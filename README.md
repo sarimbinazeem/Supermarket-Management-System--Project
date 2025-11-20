@@ -118,9 +118,4 @@ This phase-wise breakdown outlines his tasks and what he learned throughout the 
 
 ---
 
-If you want, I can also prepare:
 
-✅ A combined **Team Contributions** section  
-✅ A professional **Credits** page  
-✅ A GitHub-ready **Contributors Table**  
-Just tell me!
