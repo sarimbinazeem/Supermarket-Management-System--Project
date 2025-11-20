@@ -3,10 +3,9 @@
 #include <string.h>
 #include "../include/stock.h"
 
-#define ITEMS 100
-
-Product inventory[ITEMS];
+Product *inventory = NULL; //It starts from pointing to nothing
 int itemCount=0;
+int capacity =0; 
 
 void loadStock()
 {
