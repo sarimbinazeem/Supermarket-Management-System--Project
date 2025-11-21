@@ -6,7 +6,7 @@ void menu()
     int choice;
 
     while(1)
-    {
+    
         printf("\n==========Supermarket Management System==========\n");
         printf("1.Add Items\n");
         printf("2.Display Stock\n");
@@ -24,7 +24,7 @@ void menu()
         scanf("%d",&choice);
 
         switch(choice)
-        {
+        
             case 1:
                 addItem();
                 break;
@@ -80,8 +80,8 @@ void menu()
             default:
                 printf("Invalid Choice! \n");
                 break;
-        }
-    }
+        
+    
 }
 
 int main()
@@ -89,6 +89,6 @@ int main()
     loadStock();
     menu();
     cleanSystem();
-    
+
     return 0;
 }
