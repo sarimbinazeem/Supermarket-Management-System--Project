@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h> //For Timestamps
 #include "../include/stock.h"
 
 Product *inventory = NULL; //It starts from pointing to nothing
