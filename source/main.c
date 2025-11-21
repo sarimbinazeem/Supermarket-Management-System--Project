@@ -16,6 +16,8 @@ void menu()
         printf("6.Search For An Item\n");
         printf("7.Sort Stock By Name\n");
         printf("8.Sort Stock By Price\n");
+        printf("9.Record Sale\n");
+        printf("10.Generate Sales Report\n");
         printf("9.Exit\n");
 
         printf("Ener Your Choice: ");
@@ -54,8 +56,24 @@ void menu()
             case 8:
                 sortByPrice();
                 break;
-            
+
             case 9:
+                int qty, productId;
+
+                printf("Enter Product ID: ");
+                scanf("%d",&productId);
+
+                printf("Enter Quantity: ");
+                scanf("%d",&quantity);
+
+                recordSale(productId,quantity);
+                break;
+
+            case 10:
+                salesReport();
+                break;
+
+             case 11:
                 printf("Exiting The System...\n");
                 break;
 
