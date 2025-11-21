@@ -370,3 +370,10 @@ void salesReport()
 
     fclose(fptr);
 }
+
+void cleanSystem()
+{
+    //Dynamic Memory Allocations is cleaned/freed here
+    itemCount = 0;
+    printf("\nSystem Cleared! Exiting...\n");
+}

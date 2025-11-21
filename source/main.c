@@ -88,5 +88,7 @@ int main()
 {
     loadStock();
     menu();
+    cleanSystem();
+    
     return 0;
 }

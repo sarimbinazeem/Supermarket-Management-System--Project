@@ -37,6 +37,7 @@ void pointerPrice(Product *p, float newPrice);
 void recursiveDisplay (int index);
 void recordSale(int productID, int quantitySold);
 void salesReport();
+void cleanSystem();
 
 
 #endif
