@@ -18,7 +18,7 @@ void menu()
         printf("8.Sort Stock By Price\n");
         printf("9.Record Sale\n");
         printf("10.Generate Sales Report\n");
-        printf("9.Exit\n");
+        printf("11.Exit\n");
 
         printf("Ener Your Choice: ");
         scanf("%d",&choice);
