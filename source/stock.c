@@ -328,9 +328,45 @@ void recordSale(int productId, int quantity)
 
     FILE *fptr = fopen("../data/sales.txt","a");
 
+    if(fptr == NULL)
+    {
+        printf("ERROR! Cant Open Sales File\n");
+        return;
+    }
     fprintf(fp,"%d %s %d %.2f %s\n",productId,inventory[index].name,quantity,total,timestamp);
 
     fclose(fptr);
 
     printf("Sale Recorded Successfully\n");
+}
+
+void salesReport()
+{
+    FILE *fptr = fopen("../data/sales.txt","r");
+
+    if(fptr == NULL)
+    {
+        printf("Sales File Error In Opening! \n");
+        return;
+    }
+
+    int productId, quantity;
+    char prod[50] ,date[50];
+    float total,grand =0;
+    int itemsSold =0;
+
+    printf("\n==========Sales Report===========\n\n");
+    while(fscanf(fp,"%d %s %d %f %[^\n]",&productId,name,&quantity,&total,date)!= EOF)
+    {
+        printf("Product: %s | Quantity: %d | Total: %.2f | Date: %s \n",name,quantity,total,date);
+
+        grand += total;
+        itemsSold += quantity;
+    }
+
+    printf("\nTotal Items Sold: %d\n",itemsSold);
+    printf("Total Revenue Generated: %d\n",grand);
+    printf("\n----------------------------------\n");
+
+    fclose(fptr);
 }
