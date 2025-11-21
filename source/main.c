@@ -10,7 +10,7 @@ void menu()
         printf("\n==========Supermarket Management System==========\n");
         printf("1.Add Items\n");
         printf("2.Display Stock\n");
-        printf("3.Update Item\n");
+        printf("3.Update Item\n");  
         printf("4.Delete Item\n");
         printf("5.Check For Low Stock\n");
         printf("6.Search For An Item\n");
@@ -18,7 +18,9 @@ void menu()
         printf("8.Sort Stock By Price\n");
         printf("9.Record Sale\n");
         printf("10.Generate Sales Report\n");
-        printf("11.Exit\n");
+        printf("11.Load Stock From File: \n");
+        printf("12.Save Stock To File: \n");
+        printf("13.Exit\n");
 
         printf("Ener Your Choice: ");
         scanf("%d",&choice);
@@ -73,7 +75,13 @@ void menu()
                 salesReport();
                 break;
 
-             case 11:
+            case 11:
+                loadStock();
+
+            case 12:
+                saveStock();
+
+             case 13:
                 printf("Exiting The System...\n");
                 break;
 
