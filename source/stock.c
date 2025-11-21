@@ -130,8 +130,13 @@ void displayStock()
     printf("\n Items Displayed Successfully.\n");
 }
 
+void pointerPrice(Product *p, float newPrice)
+{
+    p -> price = newPrice;
+}
 void updateItem()
 {
+    float newPrice;
     int id;
     printf("Enter Product ID: ");
     scanf("%d",&id);
@@ -156,7 +161,9 @@ void updateItem()
     printf("Updating %s\n",inventory[found].name);
 
     printf("Enter New Price: ");
-    scanf("%f",&inventory[found].price);
+    scanf("%f",&newPrice);
+
+    pointerPrice(&inventory[found], newPrice);
 
     printf("Enter New Quantity: ");
     scanf("%d",&inventory[found].quantity);

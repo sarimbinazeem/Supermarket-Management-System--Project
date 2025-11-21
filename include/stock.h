@@ -23,5 +23,8 @@ void lowStock();
 void searchItems();
 void sortByName();
 void sortByPrice();
+void pointerPrice(Product *p, float newPrice);
+void recursiveDisplay (int index);
+
 
 #endif
