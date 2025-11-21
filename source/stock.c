@@ -291,3 +291,46 @@ void sortByPrice()
 
 }
 
+void recordSale(int productId, int quantity)
+{
+    int index = -1;
+
+    for(int i=0; i<itemCount;i++)
+    {
+        if(inventory[i].id == productId)
+        {
+            index = i;
+            break;
+        }
+    }
+
+    if(index == -1)
+    {
+        printf("Product Not Found ! \n");
+        return;
+    }
+
+    if(inventory[index].quantity < qty)
+    {
+        printf("Not Enough Stock! \n");
+        return;
+    }
+
+    inventory[index].quantity -= quantity;
+    saveStock();
+
+    float total = inventory[index].price * quantity;
+
+    time_t t; //Declaring Time Variale
+    time(&t); //Gets Input Of Time From System
+    char *timestamp = ctime(&t); //Converts Time Into String
+    timestamp[strlen(timestamp)-1] ='\0' //Removes Newline From String (That Is Automatically Added From ctime)
+
+    FILE *fptr = fopen("../data/sales.txt","a");
+
+    fprintf(fp,"%d %s %d %.2f %s\n",productId,inventory[index].name,quantity,total,timestamp);
+
+    fclose(fptr);
+
+    printf("Sale Recorded Successfully\n");
+}
