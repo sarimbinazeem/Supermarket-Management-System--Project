@@ -12,6 +12,16 @@ typedef struct
     int quantity;
 }Product;
 
+typedef struct
+{
+    int saleID;
+    int productID;
+    char productName[50];
+    int quantitySold;
+    float totalPrice;
+    char date[30]; //Added Date Array For Timestamps
+}Sale;
+
 //Function Prototypes
 void addItem();
 void displayStock();
@@ -25,6 +35,8 @@ void sortByName();
 void sortByPrice();
 void pointerPrice(Product *p, float newPrice);
 void recursiveDisplay (int index);
+void recordSale(int productID, int quantitySold);
+void salesReport();
 
 
 #endif
