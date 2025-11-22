@@ -45,7 +45,7 @@ void saveInventory(struct Product items[], int count) {
     fclose(fp);
 }
 
-int findProductById(struct Product items[], int count, int id) {
+int findProductbyID(struct Product items[], int count, int id) {
     for (int i = 0; i < count; i++) {
         if (items[i].id == id)
             return i;
@@ -65,17 +65,18 @@ void checkout() {
         return;
     }
 
+    // Cart to store customer purchases
     struct CartItem cart[maxCartItems];
     int cartCount = 0;
 
     printf("\n--- Checkout ---\n");
-    printf("Enter product ID and quantity (enter 0 0 to finish):\n");
+    printf("Enter product ID and quantity (or 0 to finish):\n");
 
     while (1) {
-        int pid, qty;
+        int id, qty;
         printf("Product ID: ");
-        scanf("%d", &pid);
-        if (pid == 0) break;
+        scanf("%d", &id);
+        if (id == 0) break;
 
         printf("Quantity: ");
         scanf("%d", &qty);
@@ -85,21 +86,22 @@ void checkout() {
             continue;
         }
 
-        int idx = findProductById(products, productCount, pid);
-        if (idx == -1) {
-            printf("Product ID %d not found!\n", pid);
+        int idf = findProductbyID(products, productCount, id);
+        if (idf == -1) {
+            printf("Product ID %d not found!\n", id);
             continue;
         }
 
-        if (products[idx].quantity < qty) {
+        if (products[idf].quantity < qty) {
             printf("Insufficient stock for %s. Available: %d\n", products[idx].name, products[idx].quantity);
             continue;
         }
 
-        cart[cartCount].productId = pid;
+        // Add product to cart
+        cart[cartCount].productId = id;
         cart[cartCount].quantity = qty;
-        cart[cartCount].price = products[idx].price;
-        strcpy(cart[cartCount].name, products[idx].name);
+        cart[cartCount].price = products[idp].price;
+        strcpy(cart[cartCount].name, products[idp].name);
         cartCount++;
 
         if (cartCount >= maxCartItems) {
@@ -113,6 +115,7 @@ void checkout() {
         return;
     }
 
+    // Now Calculate and print receipt
     float total = 0.0;
     printf("\n--- Receipt ---\n");
     printf("ID\tName\tQty\tPrice\tTotal\n");
@@ -122,14 +125,27 @@ void checkout() {
         printf("%d\t%s\t%d\t%.2f\t%.2f\n", cart[i].productId, cart[i].name, cart[i].quantity, cart[i].price, itemTotal);
         total += itemTotal;
 
-        int idx = findProductById(products, productCount, cart[i].productId);
-        products[idx].quantity -= cart[i].quantity;
+        // Reduce stock in inventory
+        int idf = findProductbyID(products, productCount, cart[i].productId);
+        products[idf].quantity -= cart[i].quantity;
     }
 
     printf("-------------------------------\n");
     printf("Total Bill: %.2f\n", total);
 
+    // Save updated inventory
     saveInventory(products, productCount);
+    
 
     printf("Thank you for shopping with us!\n");
+
+    printf("\nEnter Customer ID: ");
+    char customerID[10];
+    scanf("%s", customerID);
+
+    int vipStatus = addSpending(customerID, total);
+
+    if (vipStatus) {
+    printf("Congratulations! You are now a valued VIP customer.\n");
+    }
 }
