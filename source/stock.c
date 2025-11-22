@@ -427,10 +427,19 @@ void salesReport(Product inventory[], int itemCount, Sale sales[], int saleCount
 
 }
 
-void cleanSystem()
+void cleanSystem(StockVariables *s, SaleVariables *sale)
 {
     //Dynamic Memory Allocations is cleaned/freed here
-    itemCount = 0;
+    if(s->inventory != NULL)
+    {
+        free(s->inventory);
+    }
+
+    if(sale -> sales != NULL)
+    {
+        free(sale->sales);
+    }
+
     printf("\nSystem Cleared! Exiting...\n");
 }
 

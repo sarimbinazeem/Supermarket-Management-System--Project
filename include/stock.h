@@ -55,7 +55,7 @@ void pointerPrice(Product *p, float newPrice);
 void recursiveDisplay (StockVariables*s ,int index);
 void recordSale(Product inventory[], int *itemCount, Sale sales[], int*saleCount);
 void salesReport();
-void cleanSystem(StockVariables *s);
+void cleanSystem(StockVariables *s, SaleVariables *sales);
 int getInteger();
 float getFloating();
 void saveSales(Sale sales[], int saleCount);
