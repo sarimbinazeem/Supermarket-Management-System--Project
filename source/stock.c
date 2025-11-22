@@ -1,9 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h> //For Timestamps
 #include "../include/stock.h"
 
+//----------Capacity Handler (Dynamic Memory)----------
 void capacityUpdater(StockVariables *s)
 {
     //Initially We Start from 10 capacity and use malloc which asks the computer to get memory for 10 items
@@ -23,6 +20,7 @@ void capacityUpdater(StockVariables *s)
 
  }
 
+ //----------LOAD STOCK FROM FILE----------
 void loadStock(StockVariables *s)
 {
     FILE *fptr = fopen("../data/stock.txt","r");
@@ -58,6 +56,8 @@ void loadStock(StockVariables *s)
     printf("Stock Loaded Successfully! \n");
 }
 
+
+//----------Save Stock To File----------
 void saveStock(StockVariables *s)
 {
     FILE *fptr = fopen("../data/stock.txt","w");
@@ -68,60 +68,25 @@ void saveStock(StockVariables *s)
         return;
     }
 
+    //Prints All The Items Present In Stock File
     for(int i=0; i<s->itemCount; i++)
     {
         fprintf(fptr,"%d %s %.2f %d",s->inventory[i].id,s->inventory[i].name, 
                 s->inventory[i].price, s->inventory[i].quantity);
-
-                fclose(fptr);
     }
 
+    fclose(fptr);
     printf("Stock Saved Successfully! \n");
 }
 
-void saveSales(Sale sales[], int saleCount)
-{
-    FILE *fptr = fopen("data/sales.txt","w");
 
-    if(fptr == NULL)
-    {
-        printf("ERROR! Cant Open Sales File\n");
-        return;
-    }
-     for (int i = 0; i < saleCount; i++) 
-    {
-        fprintf(fptr, "%d,%d,%d,%.2f,%s\n",
-                sales[i].saleID, sales[i].productID, sales[i].quantitySold,
-                sales[i].totalPrice, sales[i].date);
-    }
-
-    fclose(fptr);
-}
-
-void loadSales(Sale sales[], int *saleCount)
-{
-    FILE *fptr = fopen("data/sales.txt","r");
-
-    if(fptr == NULL)
-    {
-        printf("ERROR! Cant Open Sales File\n");
-        return;
-    }
-
-    *saleCount =0;
-
-    while(fscanf(fp, "%d %d %d %f %[^\n]", &sales[*saleCount].saleID, &sales[*saleCount].productID, &sales[*saleCount].quantitySold, &sales[*saleCount].totalPrice, sales[*saleCount].date) != EOF)
-    {
-         (*saleCount)++;
-    }
-
-    fclose(fptr);
-}
-
+//----------Add New Items To File----------
 void addItem(StockVariables *s)
 {
+    //Updates Capacity
     capacityUpdater(s);
 
+    //Take Details Of New Item
     Product new;
     printf("Enter Product ID: ");
     scanf("%d",&new.id);
@@ -136,13 +101,16 @@ void addItem(StockVariables *s)
     printf("Enter Product Quantity: ");
     scanf("%d",&new.quantity);
     
+    //Add New Structure to Inventory Structre
     s->inventory[s->itemCount] = new;
     s->itemCount++;
 
+    //Save
     saveStock(s);
     printf("Item Added Successfully! \n");
 }
 
+//----------Display Stock----------
 void recursiveDisplay (StockVariables *s,int index)
 {
     if(index>=s->itemCount)
@@ -152,17 +120,20 @@ void recursiveDisplay (StockVariables *s,int index)
 
      printf("%d) %s | Price: %.2f | Quantity: %d\n",s->inventory[index].id, s->inventory[index].name, s->inventory[index].price,s->inventory[index].quantity);
 
-     recursiveDisplay(s,index +1); //recursive call
+     recursiveDisplay(s,index +1); //recursive call (Move To Next Index)
 
 
 }
+
 void displayStock(StockVariables *s)
 {
     printf("\n==========Stock Available==========\n");
+    //Apply Recursive Display Function
     recursiveDisplay(s,0);
     printf("\n Items Displayed Successfully.\n");
 }
 
+//----------Updating Item Price And Quantity----------
 void pointerPrice(Product *p, float newPrice)
 {
     p -> price = newPrice;
@@ -176,6 +147,7 @@ void updateItem(StockVariables *s)
     printf("Enter Product ID To Update: ");
     scanf("%d",&id);
 
+    //Find If The ID exists
     int found = -1
 
     for(int i=0; i<s->itemCount; i++)
@@ -199,22 +171,26 @@ void updateItem(StockVariables *s)
     printf("Enter New Price: ");
     scanf("%f",&newPrice);
 
+    //Updates Price By Pointer Price Function
     pointerPrice(&s->inventory[found], newPrice);
 
     printf("Enter New Quantity: ");
     scanf("%d",&s->inventory[found].quantity);
 
+    //Save Stock
     saveStock(s);
     printf("Item Updated! \n");
     
 }
 
+//----------Delete Items----------  
 void deleteItem(StockVariables *s)
 {
     int id;
     printf("Enter Product ID: ");
     scanf("%d",&id);
 
+    //Find if the ID EXISTS
     int found = -1
     for(int i=0; i<s->itemCount; i++)
     {
@@ -231,20 +207,24 @@ void deleteItem(StockVariables *s)
         return;
     }
 
+    //Delete  The ID through Looping
     for(int i= found ; i<s->itemCount-1; i++)
     {
         s->inventory[i] = s->inventory[i+1]; 
     }
 
     s->itemCount--;
+    //save
     saveStock(s);
 
     printf("Item Deleted! \n");
 }
 
+//----------Low Stock Warning----------
 void lowStock(StockVariables *s)
 {
     int flag =0;
+    //Checking If ANy ITEM Have lesser than 5 stock
     for(int i=0; i< s->itemCount; i++)
     {
         if(s->inventory[i].quantity < 5)
@@ -254,12 +234,14 @@ void lowStock(StockVariables *s)
         }
     }
 
+    //Full Stock Case
     if(!flag)
     {
         printf("All Items Are Fully Stocked! \n");
     }
 }
 
+//----------Searching ITEMS----------
 void searchItems(StockVariables *s)
 {
     int flag =0;
@@ -267,7 +249,8 @@ void searchItems(StockVariables *s)
 
     printf("Enter Product Name To Search: ");
     scanf("%[^\n]",search);
-
+    
+    //Checking Item Existence And Printing Its Details
     for(int i=0; i<s->itemCount ;i++)
     {
         if(strcmp(s->inventory[i].name,search) ==0)
@@ -282,6 +265,7 @@ void searchItems(StockVariables *s)
         }
     }
 
+    //No ITems Found Case
     if(!flag)
     {
         printf("Item Not Found! \n");
@@ -465,4 +449,42 @@ int getFloating()
     }
 
     return n;
+}
+void saveSales(Sale sales[], int saleCount)
+{
+    FILE *fptr = fopen("data/sales.txt","w");
+
+    if(fptr == NULL)
+    {
+        printf("ERROR! Cant Open Sales File\n");
+        return;
+    }
+     for (int i = 0; i < saleCount; i++) 
+    {
+        fprintf(fptr, "%d,%d,%d,%.2f,%s\n",
+            sales[i].saleID, sales[i].productID, sales[i].quantitySold,
+            sales[i].totalPrice, sales[i].date);
+        }
+        
+        fclose(fptr);
+    }
+
+void loadSales(Sale sales[], int *saleCount)
+{
+    FILE *fptr = fopen("data/sales.txt","r");
+
+    if(fptr == NULL)
+    {
+        printf("ERROR! Cant Open Sales File\n");
+        return;
+    }
+
+    *saleCount =0;
+
+    while(fscanf(fp, "%d %d %d %f %[^\n]", &sales[*saleCount].saleID, &sales[*saleCount].productID, &sales[*saleCount].quantitySold, &sales[*saleCount].totalPrice, sales[*saleCount].date) != EOF)
+    {
+         (*saleCount)++;
+    }
+
+    fclose(fptr);
 }
