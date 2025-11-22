@@ -27,7 +27,6 @@ typedef struct
 {
     int saleID;
     int productID;
-    char productName[50];
     int quantitySold;
     float totalPrice;
     char date[30]; //Added Date Array For Timestamps
@@ -47,11 +46,13 @@ void sortByName(StockVariables *s);
 void sortByPrice(StockVariables *s);
 void pointerPrice(Product *p, float newPrice);
 void recursiveDisplay (StockVariables*s ,int index);
-void recordSale(StockVariables *s,int productID, int quantitySold);
+void recordSale(Product inventory[], int *itemCount, Sale sales[], int*saleCount);
 void salesReport();
 void cleanSystem(StockVariables *s);
 int getInteger();
 float getFloating();
+void saveSales(Sale sales[], int saleCount);
+void loadSales(Sale sales[], int saleCount);
 
 
 #endif

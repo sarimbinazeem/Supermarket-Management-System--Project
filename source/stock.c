@@ -79,7 +79,9 @@ void saveStock(StockVariables *s)
     printf("Stock Saved Successfully! \n");
 }
 
-void addItem()
+
+
+void addItem(StockVariables *s)
 {
     capacityUpdater(s);
 
@@ -88,7 +90,7 @@ void addItem()
     scanf("%d",&new.id);
 
     printf("Enter Product Name: ");
-    scanf("%[^\n]",new.name);
+    scanf("%[^\n]",new.name);   
     getchar();
 
     printf("Enter Product Price: ");
@@ -104,23 +106,23 @@ void addItem()
     printf("Item Added Successfully! \n");
 }
 
-void recursiveDisplay (int index)
+void recursiveDisplay (StockVariables *s,int index)
 {
-    if(index>=itemCount)
+    if(index>=s->itemCount)
     {
         return; //Base Case
     }
 
-     printf("%d) %s | Price: %.2f | Quantity: %d\n",inventory[index].id, inventory[index].name, inventory[index].price,inventory[index].quantity);
+     printf("%d) %s | Price: %.2f | Quantity: %d\n",s->inventory[index].id, s->inventory[index].name, s->inventory[index].price,s->inventory[index].quantity);
 
-     recursiveDisplay(index +1); //recursive call
+     recursiveDisplay(s,index +1); //recursive call
 
 
 }
-void displayStock()
+void displayStock(StockVariables *s)
 {
     printf("\n==========Stock Available==========\n");
-    recursiveDisplay(0);
+    recursiveDisplay(s,0);
     printf("\n Items Displayed Successfully.\n");
 }
 
@@ -128,17 +130,20 @@ void pointerPrice(Product *p, float newPrice)
 {
     p -> price = newPrice;
 }
-void updateItem()
+
+void updateItem(StockVariables *s)
 {
     float newPrice;
     int id;
-    printf("Enter Product ID: ");
+
+    printf("Enter Product ID To Update: ");
     scanf("%d",&id);
 
     int found = -1
-    for(int i=0; i<itemCount; i++)
+
+    for(int i=0; i<s->itemCount; i++)
     {
-        if(inventory[i].id == id)
+        if(s->inventory[i].id == id)
         {
             found = i;
             break;
@@ -152,31 +157,31 @@ void updateItem()
         return;
     }
 
-    printf("Updating %s\n",inventory[found].name);
+    printf("Updating %s\n",s->inventory[found].name);
 
     printf("Enter New Price: ");
     scanf("%f",&newPrice);
 
-    pointerPrice(&inventory[found], newPrice);
+    pointerPrice(&s->inventory[found], newPrice);
 
     printf("Enter New Quantity: ");
-    scanf("%d",&inventory[found].quantity);
+    scanf("%d",&s->inventory[found].quantity);
 
-    saveStock();
+    saveStock(s);
     printf("Item Updated! \n");
     
 }
 
-void deleteItem()
+void deleteItem(StockVariables *s)
 {
     int id;
     printf("Enter Product ID: ");
     scanf("%d",&id);
 
     int found = -1
-    for(int i=0; i<itemCount; i++)
+    for(int i=0; i<s->itemCount; i++)
     {
-        if(inventory[i].id == id)
+        if(s->inventory[i].id == id)
         {
             found = i;
             break;
@@ -189,26 +194,26 @@ void deleteItem()
         return;
     }
 
-    for(int i= found ; i<itemCount-1; i++)
+    for(int i= found ; i<s->itemCount-1; i++)
     {
-        inventory[i] = inventory[i+1]; 
+        s->inventory[i] = s->inventory[i+1]; 
     }
 
-    itemCount--;
-    saveStock();
+    s->itemCount--;
+    saveStock(s);
 
     printf("Item Deleted! \n");
 }
 
-void lowStock()
+void lowStock(StockVariables *s)
 {
     int flag =0;
-    for(int i=0; i<itemCount; i++)
+    for(int i=0; i< s->itemCount; i++)
     {
-        if(inventory[i].quantity < 5)
+        if(s->inventory[i].quantity < 5)
         {
             flag =1;
-            printf("WARNING: Low Stock! %s have %d quantity.\n",inventory[i].name,inventory[i].quantity);
+            printf("WARNING: Low Stock! %s have %d quantity.\n",s->inventory[i].name,s->inventory[i].quantity);
         }
     }
 
@@ -218,7 +223,7 @@ void lowStock()
     }
 }
 
-void searchItems()
+void searchItems(StockVariables *s)
 {
     int flag =0;
     char search[50];
@@ -226,16 +231,16 @@ void searchItems()
     printf("Enter Product Name To Search: ");
     scanf("%[^\n]",search);
 
-    for(int i=0; i<itemCount ;i++)
+    for(int i=0; i<s->itemCount ;i++)
     {
-        if(strcmp(inventory[i].name,search) ==0)
+        if(strcmp(s->inventory[i].name,search) ==0)
         {
             flag =1;
             printf("Item Found! \n");
-            printf("ID:%d \n",inventory[i].id);
-            printf("Name:%s \n",inventory[i].name);
-            printf("Price:%.2f \n",inventory[i].price);
-            printf("Quantity:%d \n",inventory[i].quantity);
+            printf("ID:%d \n",s->inventory[i].id);
+            printf("Name:%s \n",s->inventory[i].name);
+            printf("Price:%.2f \n",s->inventory[i].price);
+            printf("Quantity:%d \n",s->inventory[i].quantity);
             break;
         }
     }
@@ -247,45 +252,51 @@ void searchItems()
 
 }
 
-void sortByName()
+void sortByName(StockVariables *s)
 {
-    for(int i=0; i<itemCount-1; i++)
+    for(int i=0; i<s->itemCount-1; i++)
     {
-        for(int j=1; j<itemCount; j++)
+        for(int j=1; j<s->itemCount; j++)
         {
-            if(strcmp(inventory[i].name,inventory[j].name) > 0)
+            if(strcmp(s->inventory[i].name,s->inventory[j].name) > 0)
             {
-                Product temp = inventory[i];
-                inventory[i] = inventory[j];
-                inventory[j] = temp;
+                Product temp = s->inventory[i];
+                s->inventory[i] = s->inventory[j];
+                s->inventory[j] = temp;
             }
         }
     }
 
+    saveStock(s);
     printf("Stock Sorted By Name. \n");
 }
 
-void sortByPrice()
+void sortByPrice(StockVariables *s)
 {
-    for(int i=0; i<itemCount-1; i++)
+    for(int i=0; i<s->itemCount-1; i++)
     {
-        for(int j=1; j<itemCount; j++)
+        for(int j=1; j<s->itemCount; j++)
         {
-            if(inventory[i].price>inventory[j].price)
+            if(s->inventory[i].price>s->inventory[j].price)
             {
-                Product temp = inventory[i];
-                inventory[i] = inventory[j];
-                inventory[j] = temp;
+                Product temp = s->inventory[i];
+                s->inventory[i] = s->inventory[j];
+                s->inventory[j] = temp;
             }
         }
     }
 
+    saveStock(s);
     printf("Stock Sorted By Price. \n");
 
 }
 
-void recordSale(int productId, int quantity)
+void recordSale(Product inventory[], int *itemCount, Sale sales[], int*saleCount)
 {
+    int id, qty;
+    printf("\nEnter Item ID to purchase: ");
+    scanf("%d", &id);
+
     int index = -1;
 
     for(int i=0; i<itemCount;i++)
@@ -303,6 +314,9 @@ void recordSale(int productId, int quantity)
         return;
     }
 
+    printf("Enter quantity: ");
+    scanf("%d", &qty);
+
     if(inventory[index].quantity < qty)
     {
         printf("Not Enough Stock! \n");
@@ -310,58 +324,70 @@ void recordSale(int productId, int quantity)
     }
 
     inventory[index].quantity -= quantity;
-    saveStock();
-
     float total = inventory[index].price * quantity;
+
+    Sale s;
+    s.id = (*saleCount ==0) ? 1: sales[*saleCount -1].id +1;  //If there is no items then ID is 1, Otherwise it is One more of the ID then the previous ID
+    s.productID = id;
+    s.quantitySold = qty;
+    s.totalPrice = total;
 
     time_t t; //Declaring Time Variale
     time(&t); //Gets Input Of Time From System
     char *timestamp = ctime(&t); //Converts Time Into String
-    timestamp[strlen(timestamp)-1] ='\0' //Removes Newline From String (That Is Automatically Added From ctime)
+    strcpy(s.date, *timestamp);
+    s.date[strlen(s.date)-1] ='\0' //Removes Newline From String (That Is Automatically Added From ctime)
 
-    FILE *fptr = fopen("../data/sales.txt","a");
+    sales[*saleCount] = s;
+    (*saleCount)++;
 
-    if(fptr == NULL)
-    {
-        printf("ERROR! Cant Open Sales File\n");
-        return;
-    }
-    fprintf(fp,"%d %s %d %.2f %s\n",productId,inventory[index].name,quantity,total,timestamp);
-
-    fclose(fptr);
-
-    printf("Sale Recorded Successfully\n");
+    printf("\nBill Generated!\n");
+    printf("Item: %s\n", inventory[index].name);
+    printf("Quantity: %d\n", qty);
+    printf("Total Price: %.2f\n\n", total);
 }
 
-void salesReport()
+void salesReport(Product inventory[], int itemCount, Sale sales[], int saleCount)
 {
-    FILE *fptr = fopen("../data/sales.txt","r");
-
-    if(fptr == NULL)
+    if(saleCount ==0)
     {
-        printf("Sales File Error In Opening! \n");
+        printf("\n No Sale Recorded! \n");
         return;
     }
 
-    int productId, quantity;
-    char prod[50] ,date[50];
-    float total,grand =0;
-    int itemsSold =0;
+    float grand =0;
+    int sold = 0;
 
-    printf("\n==========Sales Report===========\n\n");
-    while(fscanf(fp,"%d %s %d %f %[^\n]",&productId,name,&quantity,&total,date)!= EOF)
+    printf("\n========== Sales Report ===========\n\n");
+    for(int i=0 ; i<saleCount ;i++)
     {
-        printf("Product: %s | Quantity: %d | Total: %.2f | Date: %s \n",name,quantity,total,date);
+        int index = -1;
+        for(int j=0 ;j<itemCount;j++)
+        {
+            if(inventory[j].productID == sales[i].productID)
+            {
+                index =j;
+                break;
+            }
+        }
 
-        grand += total;
-        itemsSold += quantity;
+         if(index == -1)
+         {
+            printf("Product Not Found! \n");
+            break;
+         }
+
+        printf("Product: %s | Quantity: %d | Total: %.2f | Date: %s \n", inventory[index].name, sales[index].quantitySold, sales[index].totalPrice,sales[index].date);
+
+        grand += sales[i].totalPrice;
+        sold += sales[i].quantitySold;
     }
-
-    printf("\nTotal Items Sold: %d\n",itemsSold);
-    printf("Total Revenue Generated: %d\n",grand);
+   
+    printf("\n Total Revenue Generated: %.2f\n",grand);
+    printf(" Total Items Sold: %d\n",sold);
     printf("\n----------------------------------\n");
+    
 
-    fclose(fptr);
 }
 
 void cleanSystem()
