@@ -107,11 +107,46 @@ void customerMenu(StockVariables *stock, StockVariables *sales)
 
 int main()
 {
-    StockVariables s ={NULL, 0,0};
+    StockVariables stock ={NULL, 0,0};
+    SaleVariables sales ={NULL, 0,0};
 
-    loadStock(&s);
-    menu(&s);
-    cleanSystem(&s);
+    loadStock(&stock);
+    loadSales(&sales);
+
+    int choice;
+    do
+    {
+        printf("\n=========SuperMarket Management System==========\n");
+        printf("1.Admin Mode\n");
+        printf("2.Customer Mode \n");
+        printf("0.Exit\n");
+        printf("Enter Choice: ");
+        scanf("%d",&choice);
+
+        switch(choice)
+        {
+            case 1:
+                adminMenu(&stock, &sales);
+                break;
+
+            case 2:
+                customerMenu(&stock, &sales);
+                break;
+
+            case 0:
+                saveSales(&sales);
+                saveStock(&stock);
+
+                printf("Data Saved. Exiting The Program...\n");
+                break;
+
+            default:
+                printf("Invalid Choice! \n");
+                break;
+        }
+    } while(choice != 0);
+
+    cleanSystem(&stock, &sales);
 
     return 0;
 }
