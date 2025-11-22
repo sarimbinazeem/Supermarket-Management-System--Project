@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 
-
+//----------RECORD SALE----------
 void recordSale(StockVariables *s, SaleVariables *sales)
 {
     int id, qty;
@@ -23,6 +23,7 @@ void recordSale(StockVariables *s, SaleVariables *sales)
         }
     }
 
+    //No ID found case
     if(index == -1)
     {
         printf("Product Not Found ! \n");
@@ -31,16 +32,19 @@ void recordSale(StockVariables *s, SaleVariables *sales)
 
     qty = getInt("Enter Quantity: ", 1, 10000);
 
-
+    //Not ENough Stock Case
     if(inventory[index].quantity < qty)
     {
         printf("Not Enough Stock! \n");
         return;
     }
 
+    //Deducting Quantity
     inventory[index].quantity -= quantity;
+    //Total Price Of The Sale
     float total = inventory[index].price * quantity;
 
+    //Making A Temporary Sale Structure
     Sale s;
     s.id = (*saleCount ==0) ? 1: sales[*saleCount -1].id +1;  //If there is no items then ID is 1, Otherwise it is One more of the ID then the previous ID
     s.productID = id;
@@ -53,17 +57,21 @@ void recordSale(StockVariables *s, SaleVariables *sales)
     strcpy(s.date, *timestamp);
     s.date[strlen(s.date)-1] ='\0' //Removes Newline From String (That Is Automatically Added From ctime)
 
+    //Transfering Temporary Sale Structure To sales array
     sales[*saleCount] = s;
     (*saleCount)++;
 
+    //Final SUmmary
     printf("\nBill Generated!\n");
     printf("Item: %s\n", inventory[index].name);
     printf("Quantity: %d\n", qty);
     printf("Total Price: %.2f\n\n", total);
 }
 
+//----------Creating Report Of All Sales----------
 void salesReport(StockVariables *s, SaleVariables *sales)
 {
+    //Zero Sales Case
     if(saleCount ==0)
     {
         printf("\n No Sale Recorded! \n");
@@ -79,6 +87,7 @@ void salesReport(StockVariables *s, SaleVariables *sales)
         int index = -1;
         for(int j=0 ;j<itemCount;j++)
         {
+            //Finding Which Item is SOld
             if(inventory[j].productID == sales[i].productID)
             {
                 index =j;
@@ -92,12 +101,14 @@ void salesReport(StockVariables *s, SaleVariables *sales)
             break;
          }
 
+         //Summary Of Each Product
         printf("Product: %s | Quantity: %d | Total: %.2f | Date: %s \n", inventory[index].name, sales[index].quantitySold, sales[index].totalPrice,sales[index].date);
 
         grand += sales[i].totalPrice;
         sold += sales[i].quantitySold;
     }
    
+    //Final Report
     printf("\n Total Revenue Generated: %.2f\n",grand);
     printf(" Total Items Sold: %d\n",sold);
     printf("\n----------------------------------\n");
@@ -105,7 +116,7 @@ void salesReport(StockVariables *s, SaleVariables *sales)
 
 }
 
-
+//----------Saving Sale To File----------
 void saveSales(Sale sales[], int saleCount)
 {
     FILE *fptr = fopen("data/sales.txt","w");
@@ -115,17 +126,21 @@ void saveSales(Sale sales[], int saleCount)
         printf("ERROR! Cant Open Sales File\n");
         return;
     }
+
+    //Saving Sales To Text File
      for (int i = 0; i < saleCount; i++) 
     {
         fprintf(fptr, "%d,%d,%d,%.2f,%s\n",
             sales[i].saleID, sales[i].productID, sales[i].quantitySold,
             sales[i].totalPrice, sales[i].date);
-        }
+    }
         
         fclose(fptr);
-    }
+}
 
-void loadSales(Sale sales[], int *saleCount)
+
+//----------Load Sales From File----------
+void loadSales(Sale sales[])
 {
     FILE *fptr = fopen("data/sales.txt","r");
 
@@ -135,8 +150,9 @@ void loadSales(Sale sales[], int *saleCount)
         return;
     }
 
-    *saleCount =0;
+    sales->saleCount =0;
 
+    //Taking Entries From Text Til End Of File
     while(fscanf(fp, "%d %d %d %f %[^\n]", &sales[*saleCount].saleID, &sales[*saleCount].productID, &sales[*saleCount].quantitySold, &sales[*saleCount].totalPrice, sales[*saleCount].date) != EOF)
     {
          (*saleCount)++;
@@ -145,8 +161,10 @@ void loadSales(Sale sales[], int *saleCount)
     fclose(fptr);
 }
 
+//---------Cleaning Memory----------
 void cleanSales(SaleVariables *s)
 {
+    //Cleaning Any Memory Of Sale Structure At the End
     if(s->sales != NULL)
     {
         free(s->sales);
@@ -155,13 +173,15 @@ void cleanSales(SaleVariables *s)
     printf("\nSystem Cleared! Exiting...\n");
 }
 
+
+//----------Resizing Capacity Function---------
 void resizeSales(SaleVariables *s)
 {
     //Initially We Start from 10 capacity and use malloc which asks the computer to get memory for 10 items
     if (s->capacity ==0)
     {
         s->capacity = 10;
-        s->sales = (Sale*)malloc(s->capacity * sizeof(Sale));  //sizeof(Product) initially zero
+        s->sales = (Sale*)malloc(s->capacity * sizeof(Sale));  
     }
 
     //If Items Added Exceeds Capacity Size We 
