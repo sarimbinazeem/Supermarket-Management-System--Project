@@ -273,12 +273,14 @@ void searchItems(StockVariables *s)
 
 }
 
+//----------Sort Stock By Name ----------
 void sortByName(StockVariables *s)
 {
     for(int i=0; i<s->itemCount-1; i++)
     {
         for(int j=1; j<s->itemCount; j++)
         {
+            //Bubble Sorting
             if(strcmp(s->inventory[i].name,s->inventory[j].name) > 0)
             {
                 Product temp = s->inventory[i];
@@ -288,16 +290,18 @@ void sortByName(StockVariables *s)
         }
     }
 
-    saveStock(s);
+
     printf("Stock Sorted By Name. \n");
 }
 
+//----------Sort Stock By Price----------
 void sortByPrice(StockVariables *s)
 {
     for(int i=0; i<s->itemCount-1; i++)
     {
         for(int j=1; j<s->itemCount; j++)
         {
+            //Bubble Sorting
             if(s->inventory[i].price>s->inventory[j].price)
             {
                 Product temp = s->inventory[i];
@@ -307,7 +311,6 @@ void sortByPrice(StockVariables *s)
         }
     }
 
-    saveStock(s);
     printf("Stock Sorted By Price. \n");
 
 }
