@@ -3,7 +3,8 @@
 #ifndef STOCK_H
 #define STOCK_H
 
-//Structure Added= For Each Product
+
+//Structure Added For Each Product
 typedef struct
 {
     int id;
@@ -11,6 +12,16 @@ typedef struct
     float price;
     int quantity;
 }Product;
+
+
+typedef struct
+{
+    Product *inventory;
+    int itemCount;
+    int capacity;
+} StockVariables;
+
+
 
 typedef struct
 {
@@ -23,21 +34,22 @@ typedef struct
 }Sale;
 
 //Function Prototypes
-void addItem();
-void displayStock();
-void saveStock();
-void loadStock();
-void updateItem();
-void deleteItem();
-void lowStock();
-void searchItems();
-void sortByName();
-void sortByPrice();
+void capacityUpdater(StockVariables*s)
+void addItem(StockVariables *s);
+void displayStock(StockVariables *s);
+void saveStock(StockVariables *s);
+void loadStock(StockVariables *s);
+void updateItem(StockVariables *s);
+void deleteItem(StockVariables *s);
+void lowStock(StockVariables *s);
+void searchItems(StockVariables *s);
+void sortByName(StockVariables *s);
+void sortByPrice(StockVariables *s);
 void pointerPrice(Product *p, float newPrice);
-void recursiveDisplay (int index);
-void recordSale(int productID, int quantitySold);
+void recursiveDisplay (StockVariables*s ,int index);
+void recordSale(StockVariables *s,int productID, int quantitySold);
 void salesReport();
-void cleanSystem();
+void cleanSystem(StockVariables *s);
 int getInteger();
 float getFloating();
 

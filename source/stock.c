@@ -4,30 +4,26 @@
 #include <time.h> //For Timestamps
 #include "../include/stock.h"
 
-Product *inventory = NULL; //It starts from pointing to nothing
-int itemCount=0;
-int capacity =0; 
-
-void capacityUpdater()
+void capacityUpdater(StockVariables *s)
 {
     //Initially We Start from 10 capacity and use malloc which asks the computer to get memory for 10 items
-    if (capacity ==0)
+    if (s->capacity ==0)
     {
-        capacity = 10;
-        inventory = (Product*)malloc(capacity * sizeof(Product))  //sizeof(Product) initially zero
+        s->capacity = 10;
+        s->inventory = (Product*)malloc(s->capacity * sizeof(Product))  //sizeof(Product) initially zero
     }
 
     //If Items Added Exceeds Capacity Size We 
-    else if(itemCount >= capacity)
+    else if(s->itemCount >= s->capacity)
     {
         //Double the recent capacity
-        capacity *= 2;
-        inventory = (Product*)realloc(inventory,capacity * sizeof(Product));
+        s->capacity *= 2;
+        s->inventory = (Product*)realloc(s->inventory,s->capacity * sizeof(Product));
     }
 
  }
 
-void loadStock()
+void loadStock(StockVariables *s)
 {
     FILE *fptr = fopen("../data/stock.txt","r");
 
@@ -38,25 +34,23 @@ void loadStock()
     }
 
     //Load Runs At The Start Of The Main So We Initialize From 0
-    itemCount = 0;
-    capacity =0;
+    s->itemCount = 0;
+    s->capacity =0;
 
     int id, quantity;
     char name[50];
     float price;
 
-    itemCount =0; //Added So That Each Time ItemCount starts from 0 
-
     //Take Stock from Stock File Until it is the End Of File And Store it Inventory Structure
     while(fscanf(fptr,"%d %s %f %d", &id,name,  &price, &quantity)!=EOF)
                  {
-                    capacityUpdater();
+                    capacityUpdater(s);
 
-                    inventory[itemCount].id =id;
-                    strcpy(inventory[itemCount].name,name);
-                    inventory[itemCount].price =price;
-                    inventory[itemCount].quantity = quantity;
-                    itemCount++;  
+                    s->inventory[s->itemCount].id =id;
+                    strcpy(s->inventory[s->itemCount].name,name);
+                    s->inventory[s->itemCount].price =price;
+                    s->inventory[s->itemCount].quantity = quantity;
+                    s->itemCount++;  
                  }
 
     fclose(fptr);
@@ -64,7 +58,7 @@ void loadStock()
     printf("Stock Loaded Successfully! \n");
 }
 
-void saveStock()
+void saveStock(StockVariables *s)
 {
     FILE *fptr = fopen("../data/stock.txt","w");
 
@@ -74,10 +68,10 @@ void saveStock()
         return;
     }
 
-    for(int i=0; i<itemCount; i++)
+    for(int i=0; i<s->itemCount; i++)
     {
-        fprintf(fptr,"%d %s %.2f %d",inventory[i].id,inventory[i].name, 
-                inventory[i].price, inventory[i].quantity);
+        fprintf(fptr,"%d %s %.2f %d",s->inventory[i].id,s->inventory[i].name, 
+                s->inventory[i].price, s->inventory[i].quantity);
 
                 fclose(fptr);
     }
@@ -87,27 +81,26 @@ void saveStock()
 
 void addItem()
 {
-
-    capacityUpdater();
+    capacityUpdater(s);
 
     Product new;
     printf("Enter Product ID: ");
-    scanf("%d",new.id);
+    scanf("%d",&new.id);
 
     printf("Enter Product Name: ");
     scanf("%[^\n]",new.name);
     getchar();
 
     printf("Enter Product Price: ");
-    scanf("%f",new.price);
+    scanf("%f",&new.price);
 
     printf("Enter Product Quantity: ");
-    scanf("%d",new.quantity);
+    scanf("%d",&new.quantity);
     
-    inventory[itemCount] = new;
-    itemCount++;
+    s->inventory[s->itemCount] = new;
+    s->itemCount++;
 
-    saveStock();
+    saveStock(s);
     printf("Item Added Successfully! \n");
 }
 

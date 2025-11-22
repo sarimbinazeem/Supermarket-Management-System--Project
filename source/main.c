@@ -94,9 +94,10 @@ void menu()
 
 int main()
 {
-    loadStock();
-    menu();
-    cleanSystem();
+    StockVariables s ={NULL, 0,0};
+    loadStock(&s);
+    menu(&s);
+    cleanSystem(&s);
 
     return 0;
 }
