@@ -52,7 +52,7 @@ void cleanSystem(StockVariables *s);
 int getInteger();
 float getFloating();
 void saveSales(Sale sales[], int saleCount);
-void loadSales(Sale sales[], int saleCount);
+void loadSales(Sale sales[], int *saleCount);
 
 
 #endif

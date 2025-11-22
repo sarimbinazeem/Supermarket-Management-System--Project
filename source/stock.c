@@ -79,7 +79,44 @@ void saveStock(StockVariables *s)
     printf("Stock Saved Successfully! \n");
 }
 
+void saveSales(Sale sales[], int saleCount)
+{
+    FILE *fptr = fopen("data/sales.txt","w");
 
+    if(fptr == NULL)
+    {
+        printf("ERROR! Cant Open Sales File\n");
+        return;
+    }
+     for (int i = 0; i < saleCount; i++) 
+    {
+        fprintf(fptr, "%d,%d,%d,%.2f,%s\n",
+                sales[i].saleID, sales[i].productID, sales[i].quantitySold,
+                sales[i].totalPrice, sales[i].date);
+    }
+
+    fclose(fptr);
+}
+
+void loadSales(Sale sales[], int *saleCount)
+{
+    FILE *fptr = fopen("data/sales.txt","r");
+
+    if(fptr == NULL)
+    {
+        printf("ERROR! Cant Open Sales File\n");
+        return;
+    }
+
+    *saleCount =0;
+
+    while(fscanf(fp, "%d %d %d %f %[^\n]", &sales[*saleCount].saleID, &sales[*saleCount].productID, &sales[*saleCount].quantitySold, &sales[*saleCount].totalPrice, sales[*saleCount].date) != EOF)
+    {
+         (*saleCount)++;
+    }
+
+    fclose(fptr);
+}
 
 void addItem(StockVariables *s)
 {
