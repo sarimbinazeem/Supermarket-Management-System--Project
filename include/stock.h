@@ -21,6 +21,13 @@ typedef struct
     int capacity;
 } StockVariables;
 
+typedef struct
+{
+    Sale * sales;
+    int saleCount;
+    int capacity;
+} SaleVariables;
+
 
 
 typedef struct

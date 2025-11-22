@@ -95,6 +95,7 @@ void menu()
 int main()
 {
     StockVariables s ={NULL, 0,0};
+
     loadStock(&s);
     menu(&s);
     cleanSystem(&s);
