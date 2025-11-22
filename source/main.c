@@ -14,7 +14,8 @@ int main()
 
     mainMenu(&stock, &sales);
 
-    cleanSystem(&stock, &sales);
+    cleanStock(&stock);
+    cleanSales(&sales);
 
     return 0;
 }

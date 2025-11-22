@@ -7,7 +7,7 @@
 #include <time.h>
 
 
-void recordSale(Product inventory[], int *itemCount, Sale sales[], int*saleCount)
+void recordSale(StockVariables *s, SaleVariables *sales)
 {
     int id, qty;
     printf("\nEnter Item ID to purchase: ");
@@ -63,7 +63,7 @@ void recordSale(Product inventory[], int *itemCount, Sale sales[], int*saleCount
     printf("Total Price: %.2f\n\n", total);
 }
 
-void salesReport(Product inventory[], int itemCount, Sale sales[], int saleCount)
+void salesReport(StockVariables *s, SaleVariables *sales)
 {
     if(saleCount ==0)
     {
@@ -144,4 +144,32 @@ void loadSales(Sale sales[], int *saleCount)
     }
 
     fclose(fptr);
+}
+
+void cleanSales(SaleVariables *s)
+{
+    if(s->sales != NULL)
+    {
+        free(s->sales);
+    }
+
+    printf("\nSystem Cleared! Exiting...\n");
+}
+
+void resizeSales(SaleVariables *s)
+{
+    //Initially We Start from 10 capacity and use malloc which asks the computer to get memory for 10 items
+    if (s->capacity ==0)
+    {
+        s->capacity = 10;
+        s->sales = (Sale*)malloc(s->capacity * sizeof(Sale));  //sizeof(Product) initially zero
+    }
+
+    //If Items Added Exceeds Capacity Size We 
+    else if(s->saleCount >= s->capacity)
+    {
+        //Double the recent capacity
+        s->capacity *= 2;
+        s->sales = (Sale*)realloc(s->sales,s->capacity * sizeof(Sale));
+    }
 }

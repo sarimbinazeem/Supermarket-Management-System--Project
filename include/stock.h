@@ -42,7 +42,7 @@ void lowStock(StockVariables *s);
 void searchItems(StockVariables *s);
 void sortByName(StockVariables *s);
 void sortByPrice(StockVariables *s);
-void cleanSystem(StockVariables *s, SaleVariables *sales);
+void cleanStock(StockVariables *s);
 void capacityUpdater(StockVariables*s);
 
 #endif

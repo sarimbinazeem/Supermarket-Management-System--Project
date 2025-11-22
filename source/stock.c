@@ -316,7 +316,7 @@ void sortByPrice(StockVariables *s)
 
 }
 
-void cleanSystem(StockVariables *s, SaleVariables *sale)
+void cleanStock(StockVariables *s)
 {
     //Dynamic Memory Allocations is cleaned/freed here
     if(s->inventory != NULL)
@@ -324,10 +324,5 @@ void cleanSystem(StockVariables *s, SaleVariables *sale)
         free(s->inventory);
     }
 
-    if(sale -> sales != NULL)
-    {
-        free(sale->sales);
-    }
-
-    printf("\nSystem Cleared! Exiting...\n");
+    
 }
