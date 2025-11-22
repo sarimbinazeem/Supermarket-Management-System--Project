@@ -96,11 +96,8 @@ void addItem(StockVariables *s)
     scanf("%[^\n]",new.name);   
     getchar();
 
-    printf("Enter Product Price: ");
-    scanf("%f",&new.price);
-
-    printf("Enter Product Quantity: ");
-    scanf("%d",&new.quantity);
+    new.price = getFloating("Enter Price: ", 1, 100000);
+    new.quantity = getInteger("Enter Quantity: ", 1, 10000);
     
     //Add New Structure to Inventory Structre
     s->inventory[s->itemCount] = new;
@@ -145,8 +142,7 @@ void updateItem(StockVariables *s)
     float newPrice;
     int id;
 
-    printf("Enter Product ID To Update: ");
-    scanf("%d",&id);
+    id = getInteger("Enter Product ID: ", 1, 99999);
 
     //Find If The ID exists
     int found = -1
@@ -169,14 +165,12 @@ void updateItem(StockVariables *s)
 
     printf("Updating %s\n",s->inventory[found].name);
 
-    printf("Enter New Price: ");
-    scanf("%f",&newPrice);
+    newPrice = getFloating("Enter new price: ", 1, 100000);
 
     //Updates Price By Pointer Price Function
     pointerPrice(&s->inventory[found], newPrice);
 
-    printf("Enter New Quantity: ");
-    scanf("%d",&s->inventory[found].quantity);
+    int qty = getInteger("Enter new quantity: ", 0, 10000);
 
     //Save Stock
     saveStock(s);
@@ -188,8 +182,7 @@ void updateItem(StockVariables *s)
 void deleteItem(StockVariables *s)
 {
     int id;
-    printf("Enter Product ID: ");
-    scanf("%d",&id);
+    id = getInteger("Enter Product ID: ", 1, 99999);
 
     //Find if the ID EXISTS
     int found = -1

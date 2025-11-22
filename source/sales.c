@@ -10,8 +10,7 @@
 void recordSale(StockVariables *s, SaleVariables *sales)
 {
     int id, qty;
-    printf("\nEnter Item ID to purchase: ");
-    scanf("%d", &id);
+    Id = getInt("Enter Product ID: ", 1, 99999);
 
     int index = -1;
 
@@ -30,8 +29,8 @@ void recordSale(StockVariables *s, SaleVariables *sales)
         return;
     }
 
-    printf("Enter quantity: ");
-    scanf("%d", &qty);
+    qty = getInt("Enter Quantity: ", 1, 10000);
+
 
     if(inventory[index].quantity < qty)
     {

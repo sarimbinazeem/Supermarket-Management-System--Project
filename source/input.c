@@ -1,26 +1,35 @@
 #include <stdio.h>
 #include "input.h"
 
-int getInteger()
+int getInteger(char *msg ,int min, int max)
 {
     int n;
-    while((scanf("%d",&n))!= 1)
+    while(1)
     {
+        printf("%s",msg);
+        if((scanf("%d",&n))!= 1 && n>=min && n<=max)
+        {
+            return n;
+        }
+
         printf("Invalid Input! Enter An Integer: ");
         while(getchar() ! = '\n'); //To Clear Buffer If A Person Adds a String instead of An Integer
     }
 
-    return n;
 }
 
-int getFloating()
+float getFloating(char *msg ,int min, int max)
 {
-    int n;
-    while((scanf("%f",&n))!= 1)
+    float n;
+    while(1)
     {
-        printf("Invalid Input! Enter Valid Price: ");
-        while(getchar() ! = '\n'); //To Clear Buffer If A Person Adds a String instead of An Integer
+        printf("%s",msg);
+        if((scanf("%f",&n))!= 1 && n>=min && n<=max)
+        {
+            return n;
+        }
+        
+        printf("Invalid Input! Enter A Float: ");
+        while(getchar() ! = '\n'); //To Clear Buffer If A Person Adds a String instead of An Float
     }
-
-    return n;
 }

@@ -22,8 +22,8 @@ void adminMenu(StockVariables *stock, SaleVariables *sales)
         printf("9.Generate Sales Report\n");
         printf("0.Exit\n");
 
-        printf("Ener Your Choice: ");
-        scanf("%d",&choice);
+        choice = getInt("Enter choice: ", 0, 9);
+
 
         switch(choice)
         
@@ -85,8 +85,8 @@ void customerMenu(StockVariables *stock, StockVariables *sales)
         printf("2.View Inventory\n");
         printf("0.Exit\n");
 
-        printf("Ener Your Choice: ");
-        scanf("%d",&choice);
+        choice = getInt("Enter choice: ", 0, 9);
+
 
         switch(choice)
         
@@ -117,8 +117,8 @@ void mainMenu(StockVariables *stock , SaleVariables *sales)
         printf("1.Admin Mode\n");
         printf("2.Customer Mode \n");
         printf("0.Exit\n");
-        printf("Enter Choice: ");
-        scanf("%d",&choice);
+        choice = getInt("Enter choice: ", 0, 9);
+
 
         switch(choice)
         {
