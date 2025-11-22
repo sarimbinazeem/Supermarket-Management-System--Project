@@ -7,7 +7,7 @@ void adminMenu(StockVariables *stock, SaleVariables *sales)
 
     do
     {
-        printf("\n==========Supermarket Management System==========\n");
+        printf("\n=====Admin Menu=====\n");
         printf("1.Add Items\n");
         printf("2.Display Stock\n");
         printf("3.Update Item\n");  
@@ -69,9 +69,40 @@ void adminMenu(StockVariables *stock, SaleVariables *sales)
                 break;
     } while (choice != 0)
     
-       
+}
+
+void customerMenu(StockVariables *stock, StockVariables *sales)
+{
+    int choice;
+
+    do
+    {
+        printf("\n=====Customer Menu=====\n");
+        printf("1.Buy Items\n");
+        printf("2.View Inventory\n");
+        printf("0.Exit\n");
+
+        printf("Ener Your Choice: ");
+        scanf("%d",&choice);
+
+        switch(choice)
         
-    
+            case 1:
+                recordSale(stock,sales);
+                break;
+            
+            case 2:
+                displayStock(stock);
+                break;
+
+            case 0:
+                printf("Logging Out...\n");
+                break;
+
+            default:
+                printf("Invalid Choice! \n");
+                break;
+    } while (choice != 0)
 }
 
 int main()
