@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include "../include/stock.h"
 
-void menu()
+void adminMenu(StockVariables *stock, SaleVariables *sales)
 {
     int choice;
 
-    while(1)
-    
+    do
+    {
         printf("\n==========Supermarket Management System==========\n");
         printf("1.Add Items\n");
         printf("2.Display Stock\n");
@@ -16,11 +16,8 @@ void menu()
         printf("6.Search For An Item\n");
         printf("7.Sort Stock By Name\n");
         printf("8.Sort Stock By Price\n");
-        printf("9.Record Sale\n");
-        printf("10.Generate Sales Report\n");
-        printf("11.Load Stock From File: \n");
-        printf("12.Save Stock To File: \n");
-        printf("13.Exit\n");
+        printf("9.Generate Sales Report\n");
+        printf("9.Exit\n");
 
         printf("Ener Your Choice: ");
         scanf("%d",&choice);
@@ -28,66 +25,51 @@ void menu()
         switch(choice)
         
             case 1:
-                addItem();
+                addItem(stock);
                 break;
             
             case 2:
-                displayStock();
+                displayStock(stock);
                 break;
 
             case 3:
-                updateItem();
+                updateItem(stock);
                 break;
 
             case 4:
-                deleteItem();
+                deleteItem(stock);
                 break;
 
             case 5:
-                lowStock();
+                lowStock(stock);
                 break;
             
             case 6:
-                searchItems();
+                searchItems(stock);
                 break;
 
             case 7:
-                sortByName();
+                sortByName(stock);
                 break;
 
             case 8:
-                sortByPrice();
+                sortByPrice(stock);
                 break;
 
             case 9:
-                int qty, productId;
-
-                printf("Enter Product ID: ");
-                scanf("%d",&productId);
-
-                printf("Enter Quantity: ");
-                scanf("%d",&quantity);
-
-                recordSale(productId,quantity);
+                salesReport(stock,sales);
                 break;
 
-            case 10:
-                salesReport();
-                break;
-
-            case 11:
-                loadStock();
-
-            case 12:
-                saveStock();
-
-             case 13:
-                printf("Exiting The System...\n");
+             case 0:
+                printf("Logging Out...\n");
                 break;
 
             default:
                 printf("Invalid Choice! \n");
                 break;
+    } while (choice != 0)
+    
+       
         
     
 }
