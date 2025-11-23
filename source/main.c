@@ -3,6 +3,7 @@
 #include "stock.h"
 #include "sales.h"
 #include "menu.h"
+#include "input.h"
 
 int main()
 {

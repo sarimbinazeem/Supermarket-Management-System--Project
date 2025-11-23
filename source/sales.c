@@ -160,9 +160,9 @@ void loadSales(Sale sales[], SaleVariables * sle)
          sle->saleCount++;
     }
     
-	if(sales->saleCount >= sales->capacity)
+	if(sle->saleCount >= sle->capacity)
 	 {
-  		  resizeSales(sales);
+  		  resizeSales(sle);
 	}
     fclose(fptr);
 }

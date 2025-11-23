@@ -9,7 +9,7 @@ void capacityUpdater(StockVariables *s)
     {
         s->capacity = 10;
         s->inventory = (Product*)malloc(s->capacity * sizeof(Product)); 
-
+    }
     //If Items Added Exceeds Capacity Size We 
     else if(s->itemCount >= s->capacity)
     {

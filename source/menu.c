@@ -61,7 +61,7 @@ void adminMenu(StockVariables *stock, SaleVariables *sales,Sale *sle)
                 break;
 
             case 9: //Get Report Of The Sales Done
-                salesReport(stock,sales,sle);
+                salesReport(stock,sales);
                 break;
 
              case 0: //Exiting THe Program
