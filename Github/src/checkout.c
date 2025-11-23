@@ -1,3 +1,5 @@
+#include "include/customer.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,14 +34,14 @@ int loadInventory(struct Product items[], int maxItems) {
     return count;
 }
 
-void saveInventory(struct Product items[], int count) {
+void saveInventory(struct Product items[], int *count) {
     FILE *fp = fopen("inventory.txt", "w");
     if (fp == NULL) {
         printf("Error opening inventory.txt for writing!\n");
         return;
     }
 
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < *count; i++) {
         fprintf(fp, "%d %s %.2f %d\n", items[i].id, items[i].name, items[i].price, items[i].quantity);
     }
     fclose(fp);
@@ -93,15 +95,15 @@ void checkout() {
         }
 
         if (products[idf].quantity < qty) {
-            printf("Insufficient stock for %s. Available: %d\n", products[idx].name, products[idx].quantity);
+            printf("Insufficient stock for %s. Available: %d\n", products[idf].name, products[idf].quantity);
             continue;
         }
 
         // Add product to cart
         cart[cartCount].productId = id;
         cart[cartCount].quantity = qty;
-        cart[cartCount].price = products[idp].price;
-        strcpy(cart[cartCount].name, products[idp].name);
+        cart[cartCount].price = products[idf].price;
+        strcpy(cart[cartCount].name, products[idf].name);
         cartCount++;
 
         if (cartCount >= maxCartItems) {
@@ -134,7 +136,7 @@ void checkout() {
     printf("Total Bill: %.2f\n", total);
 
     // Save updated inventory
-    saveInventory(products, productCount);
+    saveInventory(products, &productCount);
     
 
     printf("Thank you for shopping with us!\n");
