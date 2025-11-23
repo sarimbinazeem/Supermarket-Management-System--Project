@@ -12,7 +12,7 @@ struct Product items[100];
 int count = 0;
 
 int login()
-void displaymenu()
+void displaymenu(struct Product items[], int *count)
 
 int main()
 {
