@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "../include/customer.h"
 #include "../include/checkout.h"
-#include "../include/report.h"
+
 
 void cashier_menu()
 {
@@ -12,7 +12,7 @@ void cashier_menu()
         printf("\n1.Add Customer");
         printf("\n2.Search Customer");
         printf("\n3.Checkout (Billing)");
-        printf("\n4.View Sales Report");
+        // printf("\n4.View Sales Report");
         printf("\n5.Back to Main Menu");
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
@@ -31,9 +31,9 @@ void cashier_menu()
                 checkout();          // from checkout.c
                 break;
 
-            case 4:
-                generate_report();   // from report.c
-                break;
+            // case 4:
+            //     generate_report();   // from report.c
+            //     break;
 
             case 5:
                 printf("\nReturning to main menu...\n");
