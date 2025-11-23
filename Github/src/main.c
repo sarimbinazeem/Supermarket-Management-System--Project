@@ -8,6 +8,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+struct Product items[100];
+int count = 0;
+
 int login()
 void displaymenu()
 
