@@ -4,25 +4,45 @@
 #include "sales.h"
 #include "menu.h"
 #include "input.h"
+#include "checkout.h"
+#include "customer.h"
+#include "report.h"
 
 int main()
 {
-    //Initializing Every Variable to 0
-    StockVariables stock ={NULL, 0,0};
-    SaleVariables sales ={NULL, 0,0};
-    Sale sle;
+    int log = login();
 
-    //Loading The Stock and SALES if any
-    loadStock(&stock);
-    resizeSales(&sales);
-	loadSales(sales.sales, &sales);
+    if(log)
+    {
+        // Allocate memory for stock and sales
+        StockVariables stock;
+        stock.inventory = malloc(sizeof(Product) * MAX_ITEMS);
+        stock.itemCount = 0;
+        stock.capacity = MAX_ITEMS;
 
-    //Displaying The Main Menu
-    mainMenu(&stock, &sales,&sle);
+        SaleVariables sales;
+        sales.sales = malloc(sizeof(Sale) * 100); // set your max sales
+        sales.saleCount = 0;
+        sales.capacity = 100;
 
-    //Cleaning The Stock and Sales From The Memory At the End
-    cleanStock(&stock);
-    cleanSales(&sales);
+        Sale sle;
+
+        // Load stock and sales
+        loadStock(&stock);
+        resizeSales(&sales);
+        loadSales(sales.sales, &sales);
+
+        // Display main menu
+        mainMenu(&stock, &sales, &sle);
+
+        // Free memory at the end
+        cleanStock(&stock);
+        cleanSales(&sales);
+    }
+    else
+    {
+        printf("Login details are not verified. Try again later.\n");
+    }
 
     return 0;
-}	
+}

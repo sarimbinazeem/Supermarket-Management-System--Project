@@ -41,63 +41,47 @@ void capacityUpdater(StockVariables *s)
  }
 
  //----------LOAD STOCK FROM FILE----------
-void loadStock(StockVariables *s)
-{
-    FILE *fptr = fopen("stock.txt","r");
-
-    if (fptr == NULL)
-    {
-        printf("Error Opening Stock File! \n");
-        return;
+int loadStock(StockVariables *s) {
+    FILE *fp = fopen("stock.txt", "r");
+    if (!fp) {
+        printf("No stock file found. Starting empty.\n");
+        s->itemCount = 0;
+        return 0;
     }
 
-    //Load Runs At The Start Of The Main So We Initialize From 0
-    s->itemCount = 0;
-    s->capacity =0;
+    int count = 0;
+    while (fscanf(fp, "%d %s %f %d",
+                  &s->inventory[count].id,
+                  s->inventory[count].name,
+                  &s->inventory[count].price,
+                  &s->inventory[count].quantity) == 4) {
+        count++;
+    }
 
-    int id, quantity;
-    char name[50];
-    float price;
-
-    //Take Stock from Stock File Until it is the End Of File And Store it Inventory Structure
-    while(fscanf(fptr,"%d %[^\n] %f %d", &id,name,  &price, &quantity)!=EOF)
-                 {
-                    capacityUpdater(s);
-
-                    s->inventory[s->itemCount].id =id;
-                    strcpy(s->inventory[s->itemCount].name,name);
-                    s->inventory[s->itemCount].price =price;
-                    s->inventory[s->itemCount].quantity = quantity;
-                    s->itemCount++;  
-                 }
-
-    fclose(fptr);
-
-    printf("Stock Loaded Successfully! \n");
+    s->itemCount = count;
+    fclose(fp);
+    return count;
 }
-
 
 //----------Save Stock To File----------
-void saveStock(StockVariables *s)
+void saveStock(StockVariables *s) 
 {
-    FILE *fptr = fopen("stock.txt","w");
-
-    if (fptr == NULL)
-    {
-        printf("Error Opening Stock File! \n");
+    FILE *fp = fopen("stock.txt", "w");
+    if (!fp) {
+        printf("Error opening stock.txt for writing!\n");
         return;
     }
 
-    //Prints All The Items Present In Stock File
-    for(int i=0; i<s->itemCount; i++)
-    {
-        fprintf(fptr,"%d %s %.2f %d\n",s->inventory[i].id,s->inventory[i].name, s->inventory[i].price, s->inventory[i].quantity);
+    for (int i = 0; i < s->itemCount; i++) {
+        fprintf(fp, "%d %s %.2f %d\n",
+                 s->inventory[i].id,
+                s->inventory[i].name,
+                s->inventory[i].price,
+                s->inventory[i].quantity);
     }
 
-    fclose(fptr);
-    printf("Stock Saved Successfully! \n");
+    fclose(fp);
 }
-
 
 //----------Add New Items To File----------
 void addItem(StockVariables *s)
@@ -117,7 +101,7 @@ void addItem(StockVariables *s)
     new.price = getFloating("Enter Price: ", 1, 100000);
     new.quantity = getInteger("Enter Quantity: ", 1, 10000);
 
-    // Check for duplicates BEFORE adding
+    // Check for duplicates  adding
     if (isDuplicateProduct(s, new.id, new.name)) 
     {
         printf("Cannot add product due to duplicate.\n");
@@ -135,18 +119,16 @@ void addItem(StockVariables *s)
 }
 
 //----------Display Stock----------
-void recursiveDisplay (StockVariables *s,int index)
-{
-    if(index>=s->itemCount)
-    {
-        return; //Base Case
-    }
+void recursiveDisplay(StockVariables *s, int index) {
+    if (index >= s->itemCount) return;
 
-     printf("%d) %s | Price: %.2f | Quantity: %d\n",s->inventory[index].id, s->inventory[index].name, s->inventory[index].price,s->inventory[index].quantity);
+    printf("%d) %s | Price: %.2f | Quantity: %d\n",
+           s->inventory[index].id,
+           s->inventory[index].name,
+           s->inventory[index].price,
+           s->inventory[index].quantity);
 
-     recursiveDisplay(s,index +1); //recursive call (Move To Next Index)
-
-
+    recursiveDisplay(s, index + 1);
 }
 
 void displayStock(StockVariables *s)
@@ -241,26 +223,6 @@ void deleteItem(StockVariables *s)
     printf("Item Deleted! \n");
 }
 
-//----------Low Stock Warning----------
-void lowStock(StockVariables *s)
-{
-    int flag =0;
-    //Checking If ANy ITEM Have lesser than 5 stock
-    for(int i=0; i< s->itemCount; i++)
-    {
-        if(s->inventory[i].quantity < 5)
-        {
-            flag =1;
-            printf("WARNING: Low Stock! %s have %d quantity.\n",s->inventory[i].name,s->inventory[i].quantity);
-        }
-    }
-
-    //Full Stock Case
-    if(!flag)
-    {
-        printf("All Items Are Fully Stocked! \n");
-    }
-}
 
 //----------Searching ITEMS----------
 void searchItems(StockVariables *s)
@@ -337,6 +299,7 @@ void sortByPrice(StockVariables *s)
 
 }
 
+//----------Cleaning Stock Memory----------
 void cleanStock(StockVariables *s)
 {
     //Dynamic Memory Allocations is cleaned/freed here

@@ -199,3 +199,24 @@ void resizeSales(SaleVariables *s)
         s->sales = (Sale*)realloc(s->sales,s->capacity * sizeof(Sale));
     }
 }
+
+void appendSale(SaleVariables *sales, int productID, int quantity, float price, float totalPrice, const char *productName) {
+    if (sales->saleCount >= sales->capacity) {
+        // Resize if needed
+        sales->capacity *= 2;
+        sales->sales = realloc(sales->sales, sizeof(Sale) * sales->capacity);
+    }
+
+    Sale *s = &sales->sales[sales->saleCount];
+    s->productID = productID;
+    s->quantitySold = quantity;
+    s->totalPrice = totalPrice;
+    strcpy(s->productName, productName);
+
+    // Store date as YYYY-MM-DD
+    time_t t = time(NULL);
+    struct tm tm_now = *localtime(&t);
+    sprintf(s->date, "%04d-%02d-%02d", tm_now.tm_year + 1900, tm_now.tm_mon + 1, tm_now.tm_mday);
+
+    sales->saleCount++;
+}

@@ -30,5 +30,6 @@ void saveSales(Sale sales[], int saleCount);
 void loadSales(Sale sales[], SaleVariables *sle);
 void resizeSales(SaleVariables *s);
 void cleanSales(SaleVariables *s);
+void appendSale(SaleVariables *sales, int productID, int quantity, float price, float totalPrice, const char *productName);
 
 #endif

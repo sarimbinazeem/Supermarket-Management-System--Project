@@ -1,6 +1,7 @@
 //Header Files
 #ifndef STOCK_H
 #define STOCK_H
+#define MAX_ITEMS 100
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,12 +26,14 @@ typedef struct
     int capacity;
 } StockVariables;
 
+// Initialize stock
+StockVariables *stock;
 
 
 //---------- Function Prototypes----------
 
 //Stock Functions
-void loadStock(StockVariables *s);
+int loadStock(StockVariables *s);
 void saveStock(StockVariables *s);
 void addItem(StockVariables *s);
 void displayStock(StockVariables *s);
@@ -45,5 +48,6 @@ void sortByPrice(StockVariables *s);
 void cleanStock(StockVariables *s);
 void capacityUpdater(StockVariables *s);
 int isDuplicateProduct(StockVariables *s, int id, const char *name);
+void remainingStock(StockVariables *s);
 
 #endif

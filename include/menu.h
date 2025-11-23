@@ -7,6 +7,8 @@
 //Menu Functions
 void mainMenu(StockVariables *s, SaleVariables *sales, Sale *sle);
 void adminMenu(StockVariables *s, SaleVariables *sales, Sale *sle);
-void customerMenu(StockVariables *s, SaleVariables *sales);
+void cashierMenu(StockVariables *s, SaleVariables *sales);
+int login();
+void reportMenu(StockVariables *stock, SaleVariables *sales);
 
 #endif
