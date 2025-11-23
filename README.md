@@ -10,8 +10,8 @@ This phase-wise breakdown ensured the project followed proper software engineeri
 
 ## 🔹 **Phase 1 — Project Setup**
 - Created the main project folder  
-- Set up the directory structure (`src/`, `include/`, `data/`, `docs/`)  
-- Added empty data files (`products.txt`, `customers.txt`, `bills.txt`, `login.txt`)  
+- Set up the directory structure (`src/`, `include/`, `data/`)  
+- Added empty data files (`products.txt`, `customers.txt`)  
 - Initialised GitHub repository  
 - Connected repo to VS Code  
 - Created main branches:  
@@ -27,12 +27,11 @@ Prepared all `.h` files with:
 - Function prototypes  
 - Include guards (`#ifndef`, `#define`, `#endif`)
 
-Files included:
-- `auth.h`  
-- `product.h`  
+Files included:  
+- `admin.h`  
 - `customer.h`  
-- `billing.h`  
-- `utils.h`
+- `cahier.h`  
+- `checkout.h`
 
 ---
 
@@ -51,7 +50,7 @@ Implemented full product functionality:
 - Update product  
 - Delete product  
 - Display product list  
-- Managed inventory using `products.txt`  
+- Managed inventory using `inventory.txt`  
 
 ---
 
@@ -67,8 +66,7 @@ Implemented full product functionality:
 - Implemented cart and purchase system  
 - Auto-reduced product stock  
 - Calculated totals, discounts, and tax  
-- Generated detailed invoices  
-- Saved billing history in `bills.txt`  
+- Generated detailed invoices    
 
 ---
 
