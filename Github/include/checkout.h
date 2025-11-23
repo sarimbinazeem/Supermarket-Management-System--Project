@@ -19,7 +19,7 @@ struct CartItem {
 
 // Functions related to checkout process
 int loadInventory(struct Product items[], int maxItems);
-void saveInventory(struct Product items[], int count);
+void saveInventory(struct Product items[], int *count);
 int findProductbyID(struct Product items[], int count, int id);
 void checkout();
 
