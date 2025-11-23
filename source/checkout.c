@@ -1,5 +1,5 @@
-#include "include/customer.h"
-
+#include "customer.h"
+#include "sales.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,9 +19,9 @@ struct CartItem {
 };
 
 int loadInventory(struct Product items[], int maxItems) {
-    FILE *fp = fopen("inventory.txt", "r");
+    FILE *fp = fopen("stock.txt", "r");
     if (fp == NULL) {
-        printf("Error opening inventory.txt\n");
+        printf("Error opening stock.txt\n");
         return 0;
     }
 
@@ -35,9 +35,9 @@ int loadInventory(struct Product items[], int maxItems) {
 }
 
 void saveInventory(struct Product items[], int *count) {
-    FILE *fp = fopen("inventory.txt", "w");
+    FILE *fp = fopen("stock.txt", "w");
     if (fp == NULL) {
-        printf("Error opening inventory.txt for writing!\n");
+        printf("Error opening stock.txt for writing!\n");
         return;
     }
 
@@ -47,29 +47,24 @@ void saveInventory(struct Product items[], int *count) {
     fclose(fp);
 }
 
-int findProductbyID(struct Product items[], int count, int id) {
-    for (int i = 0; i < count; i++) {
-        if (items[i].id == id)
+int findItemByID(StockVariables *stock, int id) {
+    for (int i = 0; i < stock->itemCount; i++) {
+        if (stock->inventory[i].id == id) {
             return i;
+        }
     }
     return -1;
 }
 
-void checkout() {
-    const int maxProducts = 100;
+void checkout(StockVariables *stock, SaleVariables *sales) {
     const int maxCartItems = 50;
+    struct CartItem cart[maxCartItems];
+    int cartCount = 0;
 
-    struct Product products[maxProducts];
-    int productCount = loadInventory(products, maxProducts);
-
-    if (productCount == 0) {
+    if (stock->itemCount == 0) {
         printf("No products available in inventory.\n");
         return;
     }
-
-    // Cart to store customer purchases
-    struct CartItem cart[maxCartItems];
-    int cartCount = 0;
 
     printf("\n--- Checkout ---\n");
     printf("Enter product ID and quantity (or 0 to finish):\n");
@@ -88,23 +83,28 @@ void checkout() {
             continue;
         }
 
-        int idf = findProductbyID(products, productCount, id);
-        if (idf == -1) {
+        int idx = findItemByID(stock, id);
+        if (idx == -1) {
             printf("Product ID %d not found!\n", id);
             continue;
         }
 
-        if (products[idf].quantity < qty) {
-            printf("Insufficient stock for %s. Available: %d\n", products[idf].name, products[idf].quantity);
+        if (stock->inventory[idx].quantity < qty) {
+            printf("Insufficient stock for %s. Available: %d\n",
+                   stock->inventory[idx].name,
+                   stock->inventory[idx].quantity);
             continue;
         }
 
         // Add product to cart
         cart[cartCount].productId = id;
         cart[cartCount].quantity = qty;
-        cart[cartCount].price = products[idf].price;
-        strcpy(cart[cartCount].name, products[idf].name);
+        cart[cartCount].price = stock->inventory[idx].price;
+        strcpy(cart[cartCount].name, stock->inventory[idx].name);
         cartCount++;
+
+        // Reduce stock in main array immediately
+        stock->inventory[idx].quantity -= qty;
 
         if (cartCount >= maxCartItems) {
             printf("Cart full! Cannot add more items.\n");
@@ -117,37 +117,39 @@ void checkout() {
         return;
     }
 
-    // Now Calculate and print receipt
-    float total = 0.0;
+    // Print receipt and calculate total
+    float total = 0;
     printf("\n--- Receipt ---\n");
     printf("ID\tName\tQty\tPrice\tTotal\n");
 
     for (int i = 0; i < cartCount; i++) {
         float itemTotal = cart[i].quantity * cart[i].price;
-        printf("%d\t%s\t%d\t%.2f\t%.2f\n", cart[i].productId, cart[i].name, cart[i].quantity, cart[i].price, itemTotal);
+        printf("%d\t%s\t%d\t%.2f\t%.2f\n",
+               cart[i].productId, cart[i].name, cart[i].quantity,
+               cart[i].price, itemTotal);
         total += itemTotal;
 
-        // Reduce stock in inventory
-        int idf = findProductbyID(products, productCount, cart[i].productId);
-        products[idf].quantity -= cart[i].quantity;
+        // Append sale to sales array
+        appendSale(sales, cart[i].productId, cart[i].quantity, cart[i].price, itemTotal,cart[i].name);
     }
 
-    printf("-------------------------------\n");
-    printf("Total Bill: %.2f\n", total);
+    printf("\nTotal Bill: %.2f\n", total);
 
-    // Save updated inventory
-    saveInventory(products, &productCount);
-    
+    // Save updated stock to file
+    saveStock(stock);
 
-    printf("Thank you for shopping with us!\n");
-
-    printf("\nEnter Customer ID: ");
+    // ---------------------------
+    // Customer Logic
+    // ---------------------------
     char customerID[10];
+    printf("\nEnter Customer ID: ");
     scanf("%s", customerID);
 
     int vipStatus = addSpending(customerID, total);
-
     if (vipStatus) {
-    printf("Congratulations! You are now a valued VIP customer.\n");
+        printf("Congratulations! You are now a valued VIP customer.\n");
     }
+
+    // Save all sales to file
+    saveSales(sales->sales, sales->saleCount);
 }
