@@ -27,15 +27,15 @@ int main()
 int login()
 {
     char username[15];
-    int password[15];
+    char password[15];
     int attempts =0;
 
     while(attempts<3)
     {
         printf("Enter Username: ");
-        scanf (" %[A-Za-z]", &username);
+        scanf (" %14s", &username);
         printf("Enter Password: ");
-        scanf ("%d", &password);
+        scanf (" %14s", &password);
 
         if (strcmp (username, "admin")== 0 && strcmp(password, "1234")==0)
         {
