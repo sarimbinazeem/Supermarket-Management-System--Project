@@ -11,7 +11,7 @@ This phase-wise breakdown ensured the project followed proper software engineeri
 ## 🔹 **Phase 1 — Project Setup**
 - Created the main project folder  
 - Set up the directory structure (`src/`, `include/`, `data/`)  
-- Added empty data files (`products.txt`, `customers.txt`)  
+- Added empty data files (`inventory.txt`, `customers.txt`)  
 - Initialised GitHub repository  
 - Connected repo to VS Code  
 - Created main branches:  
@@ -27,11 +27,11 @@ Prepared all `.h` files with:
 - Function prototypes  
 - Include guards (`#ifndef`, `#define`, `#endif`)
 
-Files included:  
+Files included:
 - `admin.h`  
-- `customer.h`  
-- `cahier.h`  
 - `checkout.h`
+- `cashier.h`    
+- `customer.h`  
 
 ---
 
@@ -81,8 +81,7 @@ Implemented full product functionality:
 ## 🔹 **Phase 8 — System Integration**
 - Built the main menu in `main.c`  
 - Connected all modules together  
-- Ensured smooth navigation between menus  
-- Fixed file path issues (`data/*.txt`)  
+- Ensured smooth navigation between menus   
 
 ---
 
