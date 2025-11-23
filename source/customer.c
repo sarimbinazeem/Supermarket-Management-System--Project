@@ -1,68 +1,68 @@
 #include <stdio.h>
 #include <string.h>
+#include "customer.h"
 
-struct Customer {
-    char id[10];          
-    float totalSpent;     
-    int isVIP;            
-};
-
-
-int loadCustomer(char *custID, struct Customer *cust) {
+// Load customer from customers.txt
+int loadCustomer(const char *custID, struct Customer *cust) {
     FILE *file = fopen("customers.txt", "r");
     if (file == NULL) {
-        return 0;
+        return 0;   // No customer file exists yet
     }
 
-    while (fscanf(file, "%s %f %d", cust->id, &cust->totalSpent, &cust->isVIP) == 3) {
+    while (fscanf(file, "%s %f %d", 
+                  cust->id, &cust->totalSpent, &cust->isVIP) == 3) 
+    {
         if (strcmp(cust->id, custID) == 0) {
             fclose(file);
-            return 1;  
+            return 1;   // Found
         }
     }
 
     fclose(file);
-    return 0;  
+    return 0;   // Not found
 }
 
-// Function to update or add customer spending in file
+// Update or add customer in customers.txt
 void updateCustomer(struct Customer *cust) {
     FILE *file = fopen("customers.txt", "r");
     FILE *temp = fopen("temp.txt", "w");
 
+    if (temp == NULL) return;
+
     int found = 0;
 
-    if (file != NULL && temp != NULL) {
+    if (file != NULL) {
         struct Customer c;
-        while (fscanf(file, "%s %f %d", c.id, &c.totalSpent, &c.isVIP) == 3) {
+
+        while (fscanf(file, "%s %f %d", 
+                      c.id, &c.totalSpent, &c.isVIP) == 3) 
+        {
             if (strcmp(c.id, cust->id) == 0) {
-                fprintf(temp, "%s %.2f %d\n", cust->id, cust->totalSpent, cust->isVIP);
+                fprintf(temp, "%s %.2f %d\n", 
+                        cust->id, cust->totalSpent, cust->isVIP);
                 found = 1;
             } else {
-                fprintf(temp, "%s %.2f %d\n", c.id, c.totalSpent, c.isVIP);
+                fprintf(temp, "%s %.2f %d\n", 
+                        c.id, c.totalSpent, c.isVIP);
             }
         }
+
         fclose(file);
-
-        // If not found, add new record
-        if (!found) {
-            fprintf(temp, "%s %.2f %d\n", cust->id, cust->totalSpent, cust->isVIP);
-        }
-
-        fclose(temp);
-
-        // Replace old file with updated temp file
-        remove("customers.txt");
-        rename("temp.txt", "customers.txt");
-    } else if (temp != NULL) {
-        fprintf(temp, "%s %.2f %d\n", cust->id, cust->totalSpent, cust->isVIP);
-        fclose(temp);
     }
+
+    if (!found) {
+        fprintf(temp, "%s %.2f %d\n", 
+                cust->id, cust->totalSpent, cust->isVIP);
+    }
+
+    fclose(temp);
+
+    remove("customers.txt");
+    rename("temp.txt", "customers.txt");
 }
 
-// Function called after checkout to add spending and check VIP status
-// Returns 1 if VIP, else 0
-int addSpending(char *custID, float amount) {
+// Add customer spending after checkout
+int addSpending(const char *custID, float amount) {
     struct Customer cust;
     int found = loadCustomer(custID, &cust);
 
@@ -74,25 +74,27 @@ int addSpending(char *custID, float amount) {
         cust.totalSpent += amount;
     }
 
+    // VIP threshold
     if (cust.totalSpent >= 10000.0) {
         cust.isVIP = 1;
     }
 
-    // Save updated record
     updateCustomer(&cust);
 
     return cust.isVIP;
 }
 
+// Add new customer manually
 void add_customer() {
     struct Customer cust;
+
     printf("Enter new Customer ID (max 9 chars): ");
     scanf("%9s", cust.id);
 
-    // Check if customer already exists
-    struct Customer tempCust;
-    if (loadCustomer(cust.id, &tempCust)) {
-        printf("Customer with ID %s already exists!\n", cust.id);
+    struct Customer temp;
+
+    if (loadCustomer(cust.id, &temp)) {
+        printf("Customer %s already exists.\n", cust.id);
         return;
     }
 
@@ -104,19 +106,21 @@ void add_customer() {
     printf("Customer %s added successfully.\n", cust.id);
 }
 
-
+// Search customer
 void search_customer() {
-    char searchID[10];
+    char id[10];
+
     printf("Enter Customer ID to search: ");
-    scanf("%9s", searchID);
+    scanf("%9s", id);
 
     struct Customer cust;
-    if (loadCustomer(searchID, &cust)) {
-        printf("Customer found:\n");
+
+    if (loadCustomer(id, &cust)) {
+        printf("\nCustomer Found:\n");
         printf("ID: %s\n", cust.id);
         printf("Total Spent: %.2f\n", cust.totalSpent);
-        printf("VIP Status: %s\n", cust.isVIP ? "YES" : "NO");
+        printf("VIP: %s\n", cust.isVIP ? "YES" : "NO");
     } else {
-        printf("Customer with ID %s not found.\n", searchID);
+        printf("Customer %s not found.\n", id);
     }
 }
