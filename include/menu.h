@@ -5,8 +5,8 @@
 #include "sales.h"
 
 //Menu Functions
-void mainMenu(StockVariables *s, SaleVariables *sales,Sale *sle);
-void adminMenu(StockVariables *s, SaleVariables *sales,Sale *sle);
+void mainMenu(StockVariables *s, SaleVariables *sales, Sale *sle);
+void adminMenu(StockVariables *s, SaleVariables *sales, Sale *sle);
 void customerMenu(StockVariables *s, SaleVariables *sales);
 
 #endif

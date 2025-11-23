@@ -33,10 +33,10 @@ float getFloating(char *msg ,float min, float max)
     {
         //Print Initial Message
         printf("%s", msg);
-        if (scanf("%f", &n) != 1)  // First check if the input is an integer
+        if (scanf("%f", &n) != 1)  // First check if the input is an float
         {
-            printf("Invalid Input! Enter An Integer: ");
-            while (getchar() != '\n');  //To Clear Buffer If A Person Adds a String instead of An Integer
+            printf("Invalid Input! Enter A Float: ");
+            while (getchar() != '\n');  //To Clear Buffer If A Person Adds a String instead of A Float
         }
         else if (n >= min && n <= max)  // Then check the range
         {

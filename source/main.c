@@ -13,7 +13,8 @@ int main()
 
     //Loading The Stock and SALES if any
     loadStock(&stock);
-    loadSales(&sle,&sales);
+    resizeSales(&sales);
+	loadSales(sales.sales, &sales);
 
     //Displaying The Main Menu
     mainMenu(&stock, &sales,&sle);
@@ -23,4 +24,4 @@ int main()
     cleanSales(&sales);
 
     return 0;
-}
+}	

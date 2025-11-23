@@ -9,6 +9,10 @@
 //----------RECORD SALE----------
 void recordSale(StockVariables *s, SaleVariables *sales)
 {
+	if(sales->saleCount >= sales->capacity) 
+	{
+   	 resizeSales(sales);
+	}
     int id, qty;
     id = getInteger("Enter Product ID: ", 1, 99999);
 
@@ -54,8 +58,8 @@ void recordSale(StockVariables *s, SaleVariables *sales)
     time_t t; //Declaring Time Variale
     time(&t); //Gets Input Of Time From System
     char *timestamp = ctime(&t); //Converts Time Into String
-    strcpy(sl->date, timestamp);
-    sl->date[strlen(sl->date)-1] ='\0'; //Removes Newline From String (That Is Automatically Added From ctime)
+    strcpy(sl.date, timestamp);
+	sl.date[strlen(sl.date)-1] = '\0'; //Removes Newline From String (That Is Automatically Added From ctime)
 
     //Transfering Temporary Sale Structure To sales array
     sales->sales[sales->saleCount] = sl;
@@ -69,7 +73,7 @@ void recordSale(StockVariables *s, SaleVariables *sales)
 }
 
 //----------Creating Report Of All Sales----------
-void salesReport(StockVariables *s, SaleVariables *sales, Sale *sle)
+void salesReport(StockVariables *s, SaleVariables *sales)
 {
     //Zero Sales Case
     if(sales->saleCount ==0)
@@ -98,11 +102,11 @@ void salesReport(StockVariables *s, SaleVariables *sales, Sale *sle)
          if(index == -1)
          {
             printf("Product Not Found! \n");
-            break;
+            continue;
          }
 
          //Summary Of Each Product
-        printf("Product: %s | Quantity: %d | Total: %.2f | Date: %s \n", s->inventory[index].name, sales->sales[index].quantitySold, sales->sales[index].totalPrice,sales->sales[index].date);
+        printf("Product: %s | Quantity: %d | Total: %.2f | Date: %s \n", s->inventory[index].name, sales->sales[i].quantitySold, sales->sales[i].totalPrice,sales->sales[i].date);
 
         grand += sales->sales[i].totalPrice;
         sold += sales->sales[i].quantitySold;
@@ -119,7 +123,7 @@ void salesReport(StockVariables *s, SaleVariables *sales, Sale *sle)
 //----------Saving Sale To File----------
 void saveSales(Sale sales[], int saleCount)
 {
-    FILE *fptr = fopen("data/sales.txt","w");
+    FILE *fptr = fopen("sales.txt","w");
 
     if(fptr == NULL)
     {
@@ -140,7 +144,7 @@ void saveSales(Sale sales[], int saleCount)
 //----------Load Sales From File----------
 void loadSales(Sale sales[], SaleVariables * sle)
 {
-    FILE *fptr = fopen("data/sales.txt","r");
+    FILE *fptr = fopen("sales.txt","r");
 
     if(fptr == NULL)
     {
@@ -151,11 +155,15 @@ void loadSales(Sale sales[], SaleVariables * sle)
     sle->saleCount =0;
 
     //Taking Entries From Text Til End Of File
-    while(fscanf(fptr, "%d %d %d %f %[^\n]", &sales[sle->saleCount].saleID, &sales[sle->saleCount].productID, &sales[sle->saleCount].quantitySold, &sales[sle->saleCount].totalPrice, sales[sle->saleCount].date) != EOF)
+    while(fscanf(fptr, "%d,%d,%d,%f,%[^\n]", &sales[sle->saleCount].saleID, &sales[sle->saleCount].productID, &sales[sle->saleCount].quantitySold, &sales[sle->saleCount].totalPrice, sales[sle->saleCount].date) != EOF)
     {
          sle->saleCount++;
     }
-
+    
+	if(sales->saleCount >= sales->capacity)
+	 {
+  		  resizeSales(sales);
+	}
     fclose(fptr);
 }
 
@@ -166,6 +174,7 @@ void cleanSales(SaleVariables *s)
     if(s->sales != NULL)
     {
         free(s->sales);
+        s->sales = NULL;
     }
 
     printf("\nSystem Cleared! Exiting...\n");

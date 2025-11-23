@@ -43,6 +43,6 @@ void searchItems(StockVariables *s);
 void sortByName(StockVariables *s);
 void sortByPrice(StockVariables *s);
 void cleanStock(StockVariables *s);
-void capacityUpdater(StockVariables*s);
+void capacityUpdater(StockVariables *s);
 
 #endif

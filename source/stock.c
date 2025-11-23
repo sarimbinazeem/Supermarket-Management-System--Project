@@ -8,8 +8,7 @@ void capacityUpdater(StockVariables *s)
     if (s->capacity ==0)
     {
         s->capacity = 10;
-        s->inventory = (Product*)malloc(s->capacity * sizeof(Product));  //sizeof(Product) initially zero
-    }
+        s->inventory = (Product*)malloc(s->capacity * sizeof(Product)); 
 
     //If Items Added Exceeds Capacity Size We 
     else if(s->itemCount >= s->capacity)
@@ -24,7 +23,7 @@ void capacityUpdater(StockVariables *s)
  //----------LOAD STOCK FROM FILE----------
 void loadStock(StockVariables *s)
 {
-    FILE *fptr = fopen("../data/stock.txt","r");
+    FILE *fptr = fopen("stock.txt","r");
 
     if (fptr == NULL)
     {
@@ -41,7 +40,7 @@ void loadStock(StockVariables *s)
     float price;
 
     //Take Stock from Stock File Until it is the End Of File And Store it Inventory Structure
-    while(fscanf(fptr,"%d %s %f %d", &id,name,  &price, &quantity)!=EOF)
+    while(fscanf(fptr,"%d %[^\n] %f %d", &id,name,  &price, &quantity)!=EOF)
                  {
                     capacityUpdater(s);
 
@@ -61,7 +60,7 @@ void loadStock(StockVariables *s)
 //----------Save Stock To File----------
 void saveStock(StockVariables *s)
 {
-    FILE *fptr = fopen("../data/stock.txt","w");
+    FILE *fptr = fopen("stock.txt","w");
 
     if (fptr == NULL)
     {
@@ -72,7 +71,7 @@ void saveStock(StockVariables *s)
     //Prints All The Items Present In Stock File
     for(int i=0; i<s->itemCount; i++)
     {
-        fprintf(fptr,"%d %s %.2f %d",s->inventory[i].id,s->inventory[i].name, s->inventory[i].price, s->inventory[i].quantity);
+        fprintf(fptr,"%d %s %.2f %d\n",s->inventory[i].id,s->inventory[i].name, s->inventory[i].price, s->inventory[i].quantity);
     }
 
     fclose(fptr);
@@ -92,8 +91,8 @@ void addItem(StockVariables *s)
     scanf("%d",&new.id);
 
     printf("Enter Product Name: ");
-    scanf("%[^\n]",new.name);   
     getchar();
+    scanf("%[^\n]",new.name);   
 
     new.price = getFloating("Enter Price: ", 1, 100000);
     new.quantity = getInteger("Enter Quantity: ", 1, 10000);
@@ -170,6 +169,7 @@ void updateItem(StockVariables *s)
     pointerPrice(&s->inventory[found], newPrice);
 
     int qty = getInteger("Enter new quantity: ", 0, 10000);
+    s->inventory[found].quantity = qty;
 
     //Save Stock
     saveStock(s);
@@ -241,12 +241,13 @@ void searchItems(StockVariables *s)
     char search[50];
 
     printf("Enter Product Name To Search: ");
+    getchar();
     scanf("%[^\n]",search);
     
     //Checking Item Existence And Printing Its Details
     for(int i=0; i<s->itemCount ;i++)
     {
-        if(strcmp(s->inventory[i].name,search) ==0)
+        if(strcasecmp(s->inventory[i].name,search) ==0)
         {
             flag =1;
             printf("Item Found! \n");
@@ -271,7 +272,7 @@ void sortByName(StockVariables *s)
 {
     for(int i=0; i<s->itemCount-1; i++)
     {
-        for(int j=1; j<s->itemCount; j++)
+        for(int j=i+1; j<s->itemCount; j++)
         {
             //Bubble Sorting
             if(strcmp(s->inventory[i].name,s->inventory[j].name) > 0)
@@ -292,7 +293,7 @@ void sortByPrice(StockVariables *s)
 {
     for(int i=0; i<s->itemCount-1; i++)
     {
-        for(int j=1; j<s->itemCount; j++)
+        for(int j=i+1; j<s->itemCount; j++)
         {
             //Bubble Sorting
             if(s->inventory[i].price>s->inventory[j].price)
@@ -314,5 +315,6 @@ void cleanStock(StockVariables *s)
     if(s->inventory != NULL)
     {
         free(s->inventory);
+        s->inventory = NULL;
     }  
 }
