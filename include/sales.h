@@ -25,9 +25,9 @@ typedef struct
 
 //Sales Functions
 void recordSale(StockVariables *s, SaleVariables *sales);
-void salesReport(StockVariables *s, SaleVariables *sales);
+void salesReport(StockVariables *s, SaleVariables *sales, Sale *sle);
 void saveSales(Sale sales[], int saleCount);
-void loadSales(Sale sales[], int *saleCount);
+void loadSales(Sale sales[], SaleVariables * sle);
 void resizeSales(SaleVariables *s);
 void cleanSales(SaleVariables *s);
 

@@ -8,7 +8,7 @@ void capacityUpdater(StockVariables *s)
     if (s->capacity ==0)
     {
         s->capacity = 10;
-        s->inventory = (Product*)malloc(s->capacity * sizeof(Product))  //sizeof(Product) initially zero
+        s->inventory = (Product*)malloc(s->capacity * sizeof(Product));  //sizeof(Product) initially zero
     }
 
     //If Items Added Exceeds Capacity Size We 
@@ -72,8 +72,7 @@ void saveStock(StockVariables *s)
     //Prints All The Items Present In Stock File
     for(int i=0; i<s->itemCount; i++)
     {
-        fprintf(fptr,"%d %s %.2f %d",s->inventory[i].id,s->inventory[i].name, 
-                s->inventory[i].price, s->inventory[i].quantity);
+        fprintf(fptr,"%d %s %.2f %d",s->inventory[i].id,s->inventory[i].name, s->inventory[i].price, s->inventory[i].quantity);
     }
 
     fclose(fptr);
@@ -145,13 +144,13 @@ void updateItem(StockVariables *s)
     id = getInteger("Enter Product ID: ", 1, 99999);
 
     //Find If The ID exists
-    int found = -1
+    int found = -1;
 
-    for(int i=0; i<s->itemCount; i++)
+    for(int j=0; j<s->itemCount; j++)
     {
-        if(s->inventory[i].id == id)
+        if(s->inventory[j].id == id)
         {
-            found = i;
+            found = j;
             break;
         }
     }
@@ -185,7 +184,7 @@ void deleteItem(StockVariables *s)
     id = getInteger("Enter Product ID: ", 1, 99999);
 
     //Find if the ID EXISTS
-    int found = -1
+    int found = -1;
     for(int i=0; i<s->itemCount; i++)
     {
         if(s->inventory[i].id == id)
@@ -315,7 +314,5 @@ void cleanStock(StockVariables *s)
     if(s->inventory != NULL)
     {
         free(s->inventory);
-    }
-
-    
+    }  
 }

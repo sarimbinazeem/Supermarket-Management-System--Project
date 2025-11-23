@@ -9,13 +9,14 @@ int main()
     //Initializing Every Variable to 0
     StockVariables stock ={NULL, 0,0};
     SaleVariables sales ={NULL, 0,0};
+    Sale sle;
 
     //Loading The Stock and SALES if any
     loadStock(&stock);
-    loadSales(&sales);
+    loadSales(&sle,&sales);
 
     //Displaying The Main Menu
-    mainMenu(&stock, &sales);
+    mainMenu(&stock, &sales,&sle);
 
     //Cleaning The Stock and Sales From The Memory At the End
     cleanStock(&stock);

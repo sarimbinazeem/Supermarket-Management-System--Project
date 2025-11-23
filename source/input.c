@@ -8,34 +8,43 @@ int getInteger(char *msg ,int min, int max)
     while(1)
     {
         //Print Initial Message
-        printf("%s",msg);
-        //Check IF THE number is Integer and In RANGE
-        if((scanf("%d",&n))!= 1 && n>=min && n<=max)
+        printf("%s", msg);
+        if (scanf("%d", &n) != 1)  // First check if the input is an integer
+        {
+            printf("Invalid Input! Enter An Integer: ");
+            while (getchar() != '\n');  //To Clear Buffer If A Person Adds a String instead of An Integer
+        }
+        else if (n >= min && n <= max)  // Then check the range
         {
             return n;
         }
-
-        printf("Invalid Input! Enter An Integer: ");
-        while(getchar() ! = '\n'); //To Clear Buffer If A Person Adds a String instead of An Integer
+        else
+        {
+            printf("Invalid input! Enter an integer between %d and %d: ", min, max);
+        }
     }
-
 }
 
 //----------Input Validator For Floating Numbers----------
-float getFloating(char *msg ,int min, int max)
+float getFloating(char *msg ,float min, float max)
 {
     float n;
     while(1)
     {
-        //Prints Initial Message
-        printf("%s",msg);
-        //Checks If The Number Is In Range And A Float Number
-        if((scanf("%f",&n))!= 1 && n>=min && n<=max)
+        //Print Initial Message
+        printf("%s", msg);
+        if (scanf("%f", &n) != 1)  // First check if the input is an integer
+        {
+            printf("Invalid Input! Enter An Integer: ");
+            while (getchar() != '\n');  //To Clear Buffer If A Person Adds a String instead of An Integer
+        }
+        else if (n >= min && n <= max)  // Then check the range
         {
             return n;
         }
-        
-        printf("Invalid Input! Enter A Float: ");
-        while(getchar() ! = '\n'); //To Clear Buffer If A Person Adds a String instead of An Float
+        else
+        {
+            printf("Invalid input! Enter a float between %.2f and %.2f: ", min, max);
+        }
     }
 }
