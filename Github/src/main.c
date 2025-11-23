@@ -51,7 +51,7 @@ int login()
     return 0;
 }
 
-void displaymenu()
+void displaymenu(struct Product items[], int *count)
 {
     int choice;
     do{
@@ -64,7 +64,7 @@ void displaymenu()
         
         switch(choice){
             case 1:
-                admin_menu();
+                adminMenu(items, count);
                 break;
             case 2:
                 cashier_menu();
