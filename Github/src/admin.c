@@ -1,3 +1,5 @@
+#include "include/checkout.h"
+
 #include<stdio.h> 
 #include <stdlib.h>
 #include <string.h>
@@ -12,7 +14,6 @@ struct Product {
 void adminMenu(struct Product items[], int *count);
 void addProduct(struct Product items[], int *count);
 void viewInventory(struct Product items[], int *count);
-void saveInventory(struct Product items[], int *count);
 
 void adminMenu(struct Product items[], int *count) {
     int choice;
@@ -72,27 +73,4 @@ void viewInventory(struct Product items[], int *count) {
             items[i].quantity
         );
     }
-}
-
-void saveInventory(struct Product items[], int *count)
-{
-    FILE *fpt = fopen("inventory.txt", "w");
-
-    if (fpt == NULL) {
-        printf("Error opening file");
-        return;
-    }
-
-    int i;
-    for (i = 0; i < *count; i++) {
-        fprintf(fpt, "%d %s %.2f %d\n",   
-            items[i].id,
-            items[i].name,
-            items[i].price,
-            items[i].quantity
-        );
-    }
-
-    fclose(fpt);   
-    printf("Inventory saved successfully!\n");
 }
