@@ -44,6 +44,6 @@ void sortByName(StockVariables *s);
 void sortByPrice(StockVariables *s);
 void cleanStock(StockVariables *s);
 void capacityUpdater(StockVariables *s);
-int findDuplicateProduct(StockVariables *s, int id, const char *name, int silent);
+int isDuplicateProduct(StockVariables *s, int id, const char *name);
 
 #endif

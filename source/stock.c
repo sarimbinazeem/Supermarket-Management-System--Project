@@ -1,6 +1,26 @@
 #include "stock.h"
 #include "input.h"
 
+
+//----------Duplicate Fineder----------
+int isDuplicateProduct(StockVariables *s, int id, const char *name) 
+{
+    for(int i = 0; i < s->itemCount; i++) 
+    {
+        if(s->inventory[i].id == id) 
+        {
+            printf("Error: Product ID %d already exists.\n", id);
+            return 1; 
+        }
+        if(strcmp(s->inventory[i].name, name) == 0)
+         {
+            printf("Error: Product name '%s' already exists.\n", name);
+            return 1; 
+        }
+    }
+    return 0; // no duplicates
+}
+
 //----------Capacity Handler (Dynamic Memory)----------
 void capacityUpdater(StockVariables *s)
 {
@@ -82,28 +102,36 @@ void saveStock(StockVariables *s)
 //----------Add New Items To File----------
 void addItem(StockVariables *s)
 {
-    //Updates Capacity
+    // Updates capacity if needed
     capacityUpdater(s);
 
-    //Take Details Of New Item
+    // Take details of new item
     Product new;
     printf("Enter Product ID: ");
-    scanf("%d",&new.id);
+    scanf("%d", &new.id);
 
     printf("Enter Product Name: ");
-    getchar();
-    scanf("%[^\n]",new.name);   
+    getchar(); // clear leftover newline
+    scanf("%[^\n]", new.name);
 
     new.price = getFloating("Enter Price: ", 1, 100000);
     new.quantity = getInteger("Enter Quantity: ", 1, 10000);
-    
-    //Add New Structure to Inventory Structre
+
+    // Check for duplicates BEFORE adding
+    if (isDuplicateProduct(s, new.id, new.name)) 
+    {
+        printf("Cannot add product due to duplicate.\n");
+         return;
+    }
+
+    // Add new product to inventory
     s->inventory[s->itemCount] = new;
     s->itemCount++;
 
-    //Save
+    // Save to file
     saveStock(s);
-    printf("Item Added Successfully! \n");
+    printf("Item Added Successfully!\n");
+ 
 }
 
 //----------Display Stock----------
