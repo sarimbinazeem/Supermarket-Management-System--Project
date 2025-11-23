@@ -1,8 +1,8 @@
-#include "../include/admin.h"
-#include "../include/cashier.h"
-#include "../include/checkout.h"
-#include "../include/customer.h"
-#include "../include/report.h"
+#include "include/admin.h"
+#include "include/cashier.h"
+#include "include/checkout.h"
+#include "include/customer.h"
+
 
 #include <stdio.h>
 #include <string.h>
@@ -11,13 +11,13 @@
 struct Product items[100];
 int count = 0;
 
-int login()
-void displaymenu(struct Product items[], int *count)
+int login();
+void displaymenu(struct Product items[], int *count);
 
 int main()
 {
     if(login())
-        displaymenu();
+        displaymenu(items, &count);
     else{
         printf ("Login details are not verified\nTry Again Later");
     }
