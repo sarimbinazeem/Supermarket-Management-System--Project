@@ -28,51 +28,62 @@ void adminMenu(StockVariables *stock, SaleVariables *sales,Sale *sle)
 
         choice = getInteger("Enter choice: ", 0, 9);
         
-
+system("cls");
         //Switch cases for each cases
         switch(choice)
         {
             case 1: //Add New Items
                 addItem(stock);
                 pauseScreen();
+                system("cls");
                 break;
             
             case 2: //Display ALL Stocks
                 displayStock(stock);
                 pauseScreen();
+                system("cls");
                 break;
 
             case 3: //update an items price and quantity
                 updateItem(stock);
                 pauseScreen();
+                system("cls");
                 break;
 
             case 4: //Delete an Item FROm Stock
                 deleteItem(stock);
                 pauseScreen();
+                system("cls");
                 break;
             
             case 5: //Search For An Item To Get Its Details
                 searchItems(stock);
                 pauseScreen();
+                system("cls");
                 break;
 
             case 6: //Sort The Stock By Name
                 sortByName(stock);
                 pauseScreen();
+                system("cls");
                 break;
 
             case 7: //Sort The Stock By Price
                 sortByPrice(stock);
                 pauseScreen();
+                system("cls");
                 break;
 
              case 0: //Exiting THe Program
                 printf("Logging Out...\n");
+                 pauseScreen();
+                system("cls");
                 break;
 
             default: //Invalid Case
                 printf("Invalid Choice! \n");
+                pauseScreen();
+                system("cls");
                 break;
         }
             
@@ -102,31 +113,38 @@ void cashierMenu(StockVariables *stock, SaleVariables *sales)
             case 1:
                 add_customer();      // from customer.c
                 pauseScreen();
+                system("cls");
                 break;
 
             case 2:
                 search_customer();   // from customer.c
                 pauseScreen();
+                system("cls");
                 break;
 
             case 3:
                  checkout(stock,sales);           // from checkout.c
                 pauseScreen();
+                system("cls");
                 break;
 
              case 4: //Record The Sale Of CUstomer
                 reportMenu(stock , sales);
                  pauseScreen();
+                system("cls");
                 break;
             
 
             case 0: //Exiting The Program
                 printf("Returning...\n");
-                
+                pauseScreen();
+                system("cls");
                 break;
 
             default: //Invalid Program
                 printf("Invalid Choice! \n");
+                pauseScreen();
+                system("cls");
                 break;
         }
 
@@ -151,10 +169,14 @@ void mainMenu(StockVariables *stock , SaleVariables *sales, Sale *sle)
         {
             case 1: //To Show Menu For Admin
                 adminMenu(stock, sales,sle);
+                pauseScreen();
+                system("cls");
                 break;
 
             case 2: //To Show Menu For Cashiers
                 cashierMenu(stock, sales);
+                pauseScreen();
+                system("cls");
                 break;
 
             case 0: //To Exit The Program after saving Data to FIle
@@ -166,6 +188,8 @@ void mainMenu(StockVariables *stock , SaleVariables *sales, Sale *sle)
 
             default: //Invalid Case
                 printf("Invalid Choice! \n");
+                pauseScreen();
+                system("cls");
                 break;
         }
     } while(choice != 0);
@@ -218,27 +242,36 @@ void reportMenu(StockVariables *stock, SaleVariables *sales)
         case 1:
             displayRemainingStock(stock);
             pauseScreen();
+                system("cls");
             break;
         case 2:
             displayDailySales(sales);
             pauseScreen();
+                system("cls");
             break;
         case 3:
             displayLowStock(stock);
             pauseScreen();
+             system("cls");
             break;
         case 4:
             displayValuedCustomers();
             pauseScreen();
+             system("cls");
             break;
 
         case 5:
             printf("Returning...\n");
+            pauseScreen();
+            system("cls");
             return;
 
         default:
             printf("Invalid choice! Try again.\n");
+            pauseScreen();
+                system("cls");
         }
     } while (choice != 5);
 
 }
+
