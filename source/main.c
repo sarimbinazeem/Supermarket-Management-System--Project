@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "screen.h"
 #include "stock.h"
 #include "sales.h"
 #include "menu.h"
@@ -45,4 +46,5 @@ int main()
     }
 
     return 0;
+
 }
