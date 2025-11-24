@@ -4,6 +4,7 @@
 #include "stock.h"
 #include "sales.h"
 #include "report.h"
+#include "screen.h"
 #include "customer.h"
 #include "checkout.h"
 
@@ -26,36 +27,44 @@ void adminMenu(StockVariables *stock, SaleVariables *sales,Sale *sle)
         printf("0.Exit\n");
 
         choice = getInteger("Enter choice: ", 0, 9);
+        
 
         //Switch cases for each cases
         switch(choice)
         {
             case 1: //Add New Items
                 addItem(stock);
+                pauseScreen();
                 break;
             
             case 2: //Display ALL Stocks
                 displayStock(stock);
+                pauseScreen();
                 break;
 
             case 3: //update an items price and quantity
                 updateItem(stock);
+                pauseScreen();
                 break;
 
             case 4: //Delete an Item FROm Stock
                 deleteItem(stock);
+                pauseScreen();
                 break;
             
             case 5: //Search For An Item To Get Its Details
                 searchItems(stock);
+                pauseScreen();
                 break;
 
             case 6: //Sort The Stock By Name
                 sortByName(stock);
+                pauseScreen();
                 break;
 
             case 7: //Sort The Stock By Price
                 sortByPrice(stock);
+                pauseScreen();
                 break;
 
              case 0: //Exiting THe Program
@@ -92,23 +101,28 @@ void cashierMenu(StockVariables *stock, SaleVariables *sales)
         {
             case 1:
                 add_customer();      // from customer.c
+                pauseScreen();
                 break;
 
             case 2:
                 search_customer();   // from customer.c
+                pauseScreen();
                 break;
 
             case 3:
                  checkout(stock,sales);           // from checkout.c
+                pauseScreen();
                 break;
 
              case 4: //Record The Sale Of CUstomer
                 reportMenu(stock , sales);
+                 pauseScreen();
                 break;
             
 
             case 0: //Exiting The Program
                 printf("Returning...\n");
+                
                 break;
 
             default: //Invalid Program
@@ -203,15 +217,19 @@ void reportMenu(StockVariables *stock, SaleVariables *sales)
         {
         case 1:
             displayRemainingStock(stock);
+            pauseScreen();
             break;
         case 2:
             displayDailySales(sales);
+            pauseScreen();
             break;
         case 3:
             displayLowStock(stock);
+            pauseScreen();
             break;
         case 4:
             displayValuedCustomers();
+            pauseScreen();
             break;
 
         case 5:
@@ -222,4 +240,5 @@ void reportMenu(StockVariables *stock, SaleVariables *sales)
             printf("Invalid choice! Try again.\n");
         }
     } while (choice != 5);
+
 }
