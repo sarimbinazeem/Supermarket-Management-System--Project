@@ -4,12 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct Product {
-    int id;
-    char name[50];
-    float price;
-    int quantity;
-};
 
 struct CartItem {
     int productId;
@@ -18,34 +12,7 @@ struct CartItem {
     char name[50];
 };
 
-int loadInventory(struct Product items[], int maxItems) {
-    FILE *fp = fopen("stock.txt", "r");
-    if (fp == NULL) {
-        printf("Error opening stock.txt\n");
-        return 0;
-    }
 
-    int count = 0;
-    while (count < maxItems && fscanf(fp, "%d %s %f %d",
-        &items[count].id, items[count].name, &items[count].price, &items[count].quantity) == 4) {
-        count++;
-    }
-    fclose(fp);
-    return count;
-}
-
-void saveInventory(struct Product items[], int *count) {
-    FILE *fp = fopen("stock.txt", "w");
-    if (fp == NULL) {
-        printf("Error opening stock.txt for writing!\n");
-        return;
-    }
-
-    for (int i = 0; i < *count; i++) {
-        fprintf(fp, "%d %s %.2f %d\n", items[i].id, items[i].name, items[i].price, items[i].quantity);
-    }
-    fclose(fp);
-}
 
 int findItemByID(StockVariables *stock, int id) {
     for (int i = 0; i < stock->itemCount; i++) {
