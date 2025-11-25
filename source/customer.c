@@ -22,7 +22,7 @@ int loadCustomer(const char *custID, struct Customer *cust) {
     return 0;   // Not found
 }
 
-// Update or add customer in customers.txt
+// Update or add customer in customers.txt,
 void updateCustomer(struct Customer *cust) {
     FILE *file = fopen("customers.txt", "r");
     FILE *temp = fopen("temp.txt", "w");

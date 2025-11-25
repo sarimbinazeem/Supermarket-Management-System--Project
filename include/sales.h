@@ -1,4 +1,4 @@
-#ifndef SALES_H
+ #ifndef SALES_H
 #define SALES_H
 
 #include "stock.h"

@@ -1,6 +1,7 @@
 #include "stock.h"
 #include "input.h"
 
+StockVariables *stock = NULL; 
 
 //----------Duplicate Fineder----------
 int isDuplicateProduct(StockVariables *s, int id, const char *name) 

@@ -1,7 +1,7 @@
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
-struct Customer {
+     struct Customer {
     char id[10];
     float totalSpent;
     int isVIP;

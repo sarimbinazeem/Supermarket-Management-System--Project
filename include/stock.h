@@ -27,7 +27,7 @@ typedef struct
 } StockVariables;
 
 // Initialize stock
-StockVariables *stock;
+extern StockVariables *stock;
 
 
 //---------- Function Prototypes----------
